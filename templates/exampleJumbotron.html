@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Jumbotron Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "css/arreglos.css" %}">
+    <link rel="shortcut icon" type="image/png" href="{% static "images/logo.png" %}">
+
+    {% block css %}
+
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.js" integrity="sha256-5i/mQ300M779N2OVDrl16lbohwXNUdzL/R2aVUXyXWA=" crossorigin="anonymous"></script>
+    <script src="{% static "js/bootstrap.js" %}" type="text/javascript" charset="utf-8" async defer></script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Home</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Development team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Other projects and repos</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog</a>
+            <div class="dropdown-menu inverse-dropdown" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">All the posts</a>
+              <a class="dropdown-item" href="#">Developer 1</a>
+              <a class="dropdown-item" href="#">Developer 2</a>
+              <a class="dropdown-item" href="#">Developer 3</a>
+              <a class="dropdown-item" href="#">Collaborative</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+<div class="navbar-right" id="NavbarLogin">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+    </ul>
+</div>
+
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">Boundless Lotus Press</h1>
+        <p>Boundless Lotus Press is a simple development blog project created for hmis subject and a basic idea in mind - improve development with markdown based blog posts where you can report the progress</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div>
+    </div>
+
+
+    <div class="container ">
+        <div class="card">
+          <h3 class="card-header ">Highlighted posts</h3>
+      <!-- Example row of columns -->
+      <div class="row highlight">
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+       </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="footer">
+        <hr>
+        <footer>
+            <p>&copy; Black Tea Sails {% now 'Y' %}</p>
+        </footer>
+        </div> <!-- /container -->
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    {% block js %}
+
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,4 @@
+*.pyc
+*.pyo
+/djvenv
+db.sqlite3

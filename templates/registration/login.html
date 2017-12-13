@@ -1,0 +1,88 @@
+{% extends 'principal/base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "css/logreg.css" %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class=".card panel-login">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-6">
+                <a href="#" class="active" id="login-form-link">Entrar</a>
+              </div>
+              <div class="col-sm-6">
+                <a href="#" id="register-form-link">Registrarse</a>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="card-block">
+            <div class="row">
+              <div class="col-lg-12">
+                <form id="login-form" action="/login/" method="post" role="form" style="display: block;">
+                  {% csrf_token %}
+                  <div class="form-group">
+                      <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Nombre de usuario" value="">
+                  </div>
+                  <div class="form-group">
+                      <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Contraseña">
+                  </div>
+                  <div class="form-group text-center">
+                    <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+                    <label for="remember"> Recordarme </label>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-6 offset-sm-3">
+                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-primary" value="Entrar">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="text-center">
+                          <a href="http://phpoll.com/recover" tabindex="5" class="forgot-password">Olvidaste la contraseña?</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+
+
+                <form id="register-form" action="/signup/" method="post" role="form" style="display: none;">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6 offset-sm-3">
+                          <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-success" value="Registrarse">
+                        </div>
+                      </div>
+                    </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content%}
+
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  <script src="{% static "js/logreg.js" %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock js %}

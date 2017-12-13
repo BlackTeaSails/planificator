@@ -1,0 +1,50 @@
+{% extends 'principal/base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "css/logreg.css" %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class=".card panel-login">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-12">
+                <a href="#" id="register-form-link">Perfil de {{user.username}}</a>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="card-block">
+            <div class="row">
+              <div class="col-lg-12">
+                <form id="update-form" action="/profile/" method="post" role="form">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6 offset-sm-3">
+                          <input type="submit" name="update-submit" id="update-submit" tabindex="4" class="form-control btn btn-success" value="Actualizar">
+                        </div>
+                      </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content%}
+
+{% block js %}
+
+{% endblock js %}

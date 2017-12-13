@@ -1,0 +1,43 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.inverse-dropdown{
+  background-color: #373a3c;
+  border: 0px;
+}
+
+.inverse-dropdown>a{
+    color: #dddddd;
+}
+
+.inverse-dropdown>a:hover{
+    color: #fff;
+    background-color: #373a3c;
+}
+
+div.highlight {
+    padding: 2em;
+}
+
+/*Menu superior en un unica linea*/
+.nav-item {
+    white-space: nowrap;
+}
