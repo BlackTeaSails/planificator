@@ -92,7 +92,8 @@ footer, .page-wrap:after {
 }
 
 .jumbotron {
-  background: url("/static/images/jumbo-bg.jpg") 50% 50% no-repeat fixed;
+  background: url("/static/images/jumbo-bg.jpg") 50% 130% no-repeat fixed;
   background-size: cover;
-  box-shadow: inset 0 0 0 1000px rgba(255,255,255,.7);
+  box-shadow: inset 0 0 0 1000px rgba(0,0,0,.8);
+  color: rgba(230, 230, 230, 1.0)
 }
