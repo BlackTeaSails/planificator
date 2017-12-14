@@ -1,9 +1,9 @@
-{% extends 'principal/base.html' %}
+{% extends 'principal/shortpage.html' %}
 {% load staticfiles %}
 
-{% block css %}
+{% block morecss %}
 <link rel="stylesheet" href="{% static "css/logreg.css" %}">
-{% endblock css %}
+{% endblock morecss %}
 
 {% block content %}
 <div class="container">
@@ -13,7 +13,7 @@
           <div class="card-header">
             <div class="row">
               <div class="col-sm-12">
-                <a href="#" id="register-form-link">Perfil de {{user.username}}</a>
+                <h2 id="profile-update-form">Perfil de {{user_profile.username}}</h2>
               </div>
             </div>
             <hr>
@@ -21,13 +21,54 @@
           <div class="card-block">
             <div class="row">
               <div class="col-lg-12">
-                <form id="update-form" action="/profile/" method="post" role="form">
+                <form id="update-form" action="{{ prefix }}" method="post" role="form">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="form-group">
                             {{ field }}
                         </div>
                     {% endfor %}
+
+                    {% if user.is_staff %}
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="is_author" id="is_author" tabindex="1" class="form-check-input">
+                        Author permision.
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="is_personal" id="is_personal" tabindex="2" class="form-check-input">
+                        Is internal personal.
+                      </label>
+                    </div>
+                    {% endif %}
+
+                    {% if field.errors %}
+                    <div class="alert alert-dismissible alert-warning" id="registration_error">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                      {{ field.errors }}
+                      {% if field.help_text %}
+                      <p class="help">{{ field.help_text|safe }}</p>
+                      {% endif %}
+                      </div>
+                    {% endif %}
+
+
+                    <!-- Zona del mensaje error -->
+                    {% if messages %}
+                      {% for message in messages %}
+                      {% if message.tags %}
+                        <div  class="alert alert-{{ message.tags }} alert-dismissible" id="modification-{{ message.tags }}">
+                      {% endif %}
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          {{ message|safe }}</div>
+                      {% endfor %}
+                    {% endif %}
+                      <!-- Fin Zona del mensaje error -->
+
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-6 offset-sm-3">
@@ -36,6 +77,22 @@
                       </div>
                     </div>
                 </form>
+                {% if user.is_staff or prefix == '/auth/profile/' %}
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-6 offset-sm-3">
+                    <a href="/auth/change_pass/" class="form-control btn btn-warning" role="button" aria-pressed="true">Change password</a>
+                  </div>
+                </div>
+</div>
+
+                <div class="row">
+                  <div class="col-sm-6 offset-sm-3">
+                    <a href="{% url 'remove_user' user_id=user_profile.id %}" class="form-control btn btn-danger" role="button" aria-pressed="true">Delete user</a>
+                  </div>
+                </div>
+                {% endif %}
+
               </div>
             </div>
           </div>

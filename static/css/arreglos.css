@@ -1,22 +1,33 @@
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
+  position: absolute;
   min-height: 100%;
+  min-width: 100%;
+  font-family: 'Overpass', sans-serif;
+  font-size: 16px;
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  min-width: 100%;
+  margin-bottom: 0px;
 }
 
-.footer {
-  position: absolute;
+footer {
+  position: static;
+  display: block;
   bottom: 0;
+  z-index: 5;
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  padding-left: 2em;
-  padding-right: 2em;
+  padding-left: 3em;
+  padding-right: 3em;
+  padding-bottom: 3em;
+  margin-top: 2em;
+  background-color: #373a3c;
+  color: #dddddd;
+  overflow:hidden;
 }
 
 .inverse-dropdown{
@@ -24,13 +35,14 @@ body {
   border: 0px;
 }
 
-.inverse-dropdown>a{
+.footer a, .inverse-dropdown>a{
     color: #dddddd;
 }
 
-.inverse-dropdown>a:hover{
+.footer a:hover, .inverse-dropdown>a:hover{
     color: #fff;
     background-color: #373a3c;
+    text-decoration: none;
 }
 
 div.highlight {
@@ -40,4 +52,47 @@ div.highlight {
 /*Menu superior en un unica linea*/
 .nav-item {
     white-space: nowrap;
+}
+
+/*Cambios en el pie para dejarlo oscuro*/
+footer>p {
+  margin-bottom: 0px;
+}
+
+footer {
+
+  padding-top: 1.5em;
+  bottom: 0;
+}
+
+/*los posts destacados deberian tener un padding abajo para no juntarse con el pie*/
+
+/*arreglos del pie para dejarlo siempre debajo del contenido y al fondo*/
+.container {
+  padding-top: 6em;
+  padding-bottom: 3em;
+}
+
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+    margin-bottom: 3em;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+footer, .page-wrap:after {
+  /* .push must be the same height as footer */
+    height: 0px;
+}
+
+.card>.highlight {
+  background-color: transparent;
+}
+
+.jumbotron {
+  background: url("/static/images/jumbo-bg.jpg") 50% 50% no-repeat fixed;
+  background-size: cover;
+  box-shadow: inset 0 0 0 1000px rgba(255,255,255,.7);
 }

@@ -1,9 +1,9 @@
-{% extends 'principal/base.html' %}
+{% extends 'principal/shortpage.html' %}
 {% load staticfiles %}
 
-{% block css %}
+{% block morecss %}
 <link rel="stylesheet" href="{% static "css/logreg.css" %}">
-{% endblock css %}
+{% endblock morecss %}
 
 {% block content %}
 <div class="container">
@@ -13,10 +13,10 @@
           <div class="card-header">
             <div class="row">
               <div class="col-sm-6">
-                <a href="#" class="active" id="login-form-link">Entrar</a>
+                <a href="#" class="{% if registro == "False" %}active{% endif %}" id="login-form-link">Entrar</a>
               </div>
               <div class="col-sm-6">
-                <a href="#" id="register-form-link">Registrarse</a>
+                <a href="#" class="{% if registro == "True" %}active{% endif %}"  id="register-form-link">Registrarse</a>
               </div>
             </div>
             <hr>
@@ -24,7 +24,7 @@
           <div class="card-block">
             <div class="row">
               <div class="col-lg-12">
-                <form id="login-form" action="/login/" method="post" role="form" style="display: block;">
+                <form id="login-form" action="/auth/login/" method="post" role="form"  style="{% if registro == "True" %} display: none; {% else %} display: block; {% endif %}">
                   {% csrf_token %}
                   <div class="form-group">
                       <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Nombre de usuario" value="">
@@ -32,6 +32,20 @@
                   <div class="form-group">
                       <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Contraseña">
                   </div>
+
+
+
+
+                  <!-- Zona del mensaje error -->
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div id="alert-login-error" class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %} alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ message|safe }}</div>
+                    {% endfor %}
+                  {% endif %}
+                    <!-- Fin Zona del mensaje error -->
+
                   <div class="form-group text-center">
                     <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
                     <label for="remember"> Recordarme </label>
@@ -47,7 +61,7 @@
                     <div class="row">
                       <div class="col-lg-12">
                         <div class="text-center">
-                          <a href="http://phpoll.com/recover" tabindex="5" class="forgot-password">Olvidaste la contraseña?</a>
+                          <a href="/auth/recover/" tabindex="5" class="forgot-password">Olvidaste la contraseña?</a>
                         </div>
                       </div>
                     </div>
@@ -56,11 +70,21 @@
 
 
 
-                <form id="register-form" action="/signup/" method="post" role="form" style="display: none;">
+                <form id="register-form" action="/auth/signup/" method="post" role="form" style="{% if registro == "True" %} display: block; {% else %} display: none; {% endif %}">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="form-group">
-                            {{ field }}
+                          {{ field }}
+                          {% if field.errors %}
+                          <div class="alert alert-dismissible alert-warning" id="registration_error">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                            {{ field.errors }}
+                            {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                            </div>
+                          {% endif %}
                         </div>
                     {% endfor %}
 

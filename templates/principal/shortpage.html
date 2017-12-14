@@ -1,0 +1,9 @@
+{% extends 'principal/base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+
+  {% block morecss %}
+  {% endblock %}
+    <link rel="stylesheet" href="{% static "css/shortpage.css" %}">
+{% endblock css %}

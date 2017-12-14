@@ -1,0 +1,60 @@
+{% extends 'principal/shortpage.html' %}
+{% load staticfiles %}
+
+{% block morecss %}
+<link rel="stylesheet" href="{% static "css/logreg.css" %}">
+{% endblock morecss %}
+
+{% block content %}
+<div class="container panel-recover">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class=".card panel-login">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-12">
+                <a href="#" class="active" id="recover-form-link">Recuperar la contraseña</a>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="card-block">
+            <div class="row">
+              <div class="col-lg-12">
+                <form id="recover-form" method="post" role="form"  style="display: block;">
+                  {% csrf_token %}
+                  <div class="form-group">
+                      <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="E-mail">
+                  </div>
+
+                  <!-- Zona del mensaje error -->
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div id="alert-recover-error" class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %} alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ message|safe }}</div>
+                    {% endfor %}
+                  {% endif %}
+                    <!-- Fin Zona del mensaje error -->
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-xl-8 offset-xl-2">
+                        <input type="submit" name="recover-submit" id="recover-submit" tabindex="4" class="form-control btn btn-primary" value="Generar nueva contraseña">
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content%}
+
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  <script src="{% static "js/logreg.js" %}" type="text/javascript" charset="utf-8" async defer></script>
+{% endblock js %}

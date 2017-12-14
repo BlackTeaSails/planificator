@@ -11,66 +11,76 @@
 
     <title>Planificator 3000</title>
 
+
+    {% block precss %}
+
+    {% endblock %}
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
-    <link rel="stylesheet" href="{% static "css/arreglos.css" %}">
+    <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}">
     <link rel="shortcut icon" type="image/png" href="{% static "images/logo.png" %}">
-
+    <link rel="stylesheet" href="{% static "css/arreglos.css" %}">
+    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
     {% block css %}
 
     {% endblock %}
+
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.js" integrity="sha256-5i/mQ300M779N2OVDrl16lbohwXNUdzL/R2aVUXyXWA=" crossorigin="anonymous"></script>
     <script src="{% static "js/bootstrap.js" %}" type="text/javascript" charset="utf-8" async defer></script>
   </head>
 
   <body>
-
+    <div class="page-wrap">
       <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="/">Home</a>
+        <a class="navbar-brand" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/projects">Projects</a>
+              <a class="nav-link" href="/projects"><i class="fa fa-list" aria-hidden="true"></i> Projects</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/team">About us</a>
+              <a class="nav-link" href="/team"><i class="fa fa-users" aria-hidden="true"></i>About us</a>
             </li>
+            {% if user.is_staff %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-wrench" aria-hidden="true"></i> Manage page</a>
+              <div class="dropdown-menu inverse-dropdown" aria-labelledby="dropdown02">
+                <a class="dropdown-item" href="/auth/users/page-1/">Manage planificators</a>
+                <a class="dropdown-item" href="/othermanageoptions">TBD</a>
+              </div>
+            </li>
+            {% endif %}
           </ul>
-
           <div class="navbar-right" id="NavbarLogin">
               <ul class="navbar-nav mr-auto">
                   {% if user.is_authenticated %}
-                    <li class="nav-item" ><a class="nav-link caret" href="/profile">Bienvenido, {{ user.username }}.</a></li> <li><a class="nav-link" href="/logout">Salir</a></li>
-                  {% else %}<li class="nav-item"><a class="nav-link" href="/login">Entrar</a></li>{% endif %}
+                    <li class="nav-item" ><a id="bienvenida" class="nav-link caret" href="/auth/profile/">Bienvenido, {{ user.username }}.</a></li> <li><a class="nav-link" href="/auth/logout/">Salir</a></li>
+                  {% else %}<li class="nav-item"><a class="nav-link" href="/auth/login/">Entrar/Registrarse</a></li>{% endif %}
                   </ul>
           </div>
-
         </div>
-
-
-
       </nav>
 
       {% block content %}
 
       {% endblock  %}
-
+</div>
     <div class="footer">
-        <hr>
         <footer>
-            <p>&copy; Black Tea Sails {% now 'Y' %}</p>
+            <p>&copy; Black Tea Sails {% now 'Y' %} <a href="https://github.com/BlackTeaSails"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a></p>
         </footer>
         </div> <!-- /container -->
     </div>
 
+      <script src="https://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
     {% block js %}
 
     {% endblock %}
-      <script src="https://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
   </body>
 </html>
