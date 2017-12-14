@@ -22,5 +22,6 @@ Un planificador de tareas para resolver el problema de next release features:
 
 `python manage.py runserver`
 
-*[Comandos personalizados](hhttps://docs.djangoproject.com/en/2.0/howto/custom-management-commands/). Las migraciones suelen pisar los datos de la bbdd, el siguiente comando no existe, pero lo podemos crear para rellenar la base de datos en un instante con datos de pruebas.
+* [Comandos personalizados](https://docs.djangoproject.com/en/2.0/howto/custom-management-commands/) Las migraciones suelen pisar los datos de la bbdd, el siguiente comando no existe, pero lo podemos crear para rellenar la base de datos en un instante con datos de pruebas.
+
 `python manage.py populate_db`
