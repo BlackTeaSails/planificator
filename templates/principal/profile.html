@@ -77,21 +77,23 @@
                       </div>
                     </div>
                 </form>
-                {% if user.is_staff or prefix == '/auth/profile/' %}
+                {% if user.is_staff and prefix == '/auth/profile/' %}
               <div class="form-group">
                 <div class="row">
                   <div class="col-sm-6 offset-sm-3">
                     <a href="/auth/change_pass/" class="form-control btn btn-warning" role="button" aria-pressed="true">Change password</a>
                   </div>
                 </div>
-</div>
+              </div>
+              {% endif %}
 
+              {% if user.is_staff or prefix == '/auth/profile/' %}
                 <div class="row">
                   <div class="col-sm-6 offset-sm-3">
                     <a href="{% url 'remove_user' user_id=user_profile.id %}" class="form-control btn btn-danger" role="button" aria-pressed="true">Delete user</a>
                   </div>
                 </div>
-                {% endif %}
+              {% endif %}
 
               </div>
             </div>
