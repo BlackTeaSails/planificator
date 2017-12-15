@@ -40,17 +40,17 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/projects"><i class="fa fa-list" aria-hidden="true"></i> Projects</a>
+              <a class="nav-link" href="/projects/page-1/"><i class="fa fa-list" aria-hidden="true"></i> Projects</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/team"><i class="fa fa-users" aria-hidden="true"></i>About us</a>
+              <a class="nav-link" href="/team/"><i class="fa fa-users" aria-hidden="true"></i> About us</a>
             </li>
             {% if user.is_staff %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-wrench" aria-hidden="true"></i> Manage page</a>
               <div class="dropdown-menu inverse-dropdown" aria-labelledby="dropdown02">
                 <a class="dropdown-item" href="/auth/users/page-1/">Manage planificators</a>
-                <a class="dropdown-item" href="/othermanageoptions">TBD</a>
+                <a class="dropdown-item" href="/othermanageoptions/">TBD</a>
               </div>
             </li>
             {% endif %}
