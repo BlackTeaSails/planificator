@@ -20,11 +20,11 @@
     <ul class="list-group">
       {% for client in clients %}
             <li class="list-group-item">
-        <div class="row highlight">
-      <div class="col-10">
-{{ client.name }} - {{ client.charge }}
+        <div class="row justify-content-between editrow">
+      <div class="col-10 vcenter">
+        <span>{{ client.name }} - {{ client.charge }}</span>
     </div>
-    <div class="col-2 ">
+    <div class="col-2 align-self-center">
       <a href="/clients/edit/client-{{ client.id }}/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a>
     </div>
   </div>
