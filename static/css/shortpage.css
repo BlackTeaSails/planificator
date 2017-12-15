@@ -1,3 +1,7 @@
 footer {
   position: absolute;
 }
+
+.row {
+  min-width: 100%
+}

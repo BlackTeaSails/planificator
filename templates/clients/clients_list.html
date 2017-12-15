@@ -1,4 +1,6 @@
-{% extends 'principal/shortpage.html' %} {% load static %} {% block morecss %}
+{% extends 'principal/shortpage.html' %}
+{% load static %}
+{% block morecss %}
 <link rel="stylesheet" href="{% static "css/popoverbootstrap.css" %}"> {% endblock morecss %} {% block content %}
 
 <div class="container ">
@@ -17,7 +19,16 @@
     <!-- Fin Zona del mensaje error -->
     <ul class="list-group">
       {% for client in clients %}
-      <li class="list-group-item align-items-center">{{ client.name }} - {{ client.charge }} <a href="/clients/edit/client-{{ client.id }}/" class="btn btn-warning"><i class="fa fa-wrench" aria-hidden="true"></i></a> </li>
+            <li class="list-group-item">
+        <div class="row highlight">
+      <div class="col-10">
+{{ client.name }} - {{ client.charge }}
+    </div>
+    <div class="col-2 ">
+      <a href="/clients/edit/client-{{ client.id }}/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  </li>
       {% endfor %}
     </ul>
     <ul class="pagination justify-content-center">
