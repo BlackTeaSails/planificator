@@ -39,9 +39,14 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="/projects/page-1/"><i class="fa fa-list" aria-hidden="true"></i> Projects</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/clients/page-1/"><i class="fa fa-address-book" aria-hidden="true"></i> Clients</a>
+            </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="/team/"><i class="fa fa-users" aria-hidden="true"></i> About us</a>
             </li>

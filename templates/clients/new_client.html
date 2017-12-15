@@ -13,7 +13,7 @@
           <div class="card-header">
             <div class="row">
               <div class="col-sm-12">
-                <h2 id="profile-update-form">Perfil de {{user_profile.username}}</h2>
+                <h2 id="client-form"> Client data </h2>
               </div>
             </div>
             <hr>
@@ -21,29 +21,13 @@
           <div class="card-block">
             <div class="row">
               <div class="col-lg-12">
-                <form id="update-form" action="{{ prefix }}" method="post" role="form">
+                <form id="clients-form" action="{{ prefix }}" method="post" role="form">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="form-group">
                             {{ field }}
                         </div>
                     {% endfor %}
-
-                    {% if user.is_staff %}
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" name="is_author" id="is_author" tabindex="1" class="form-check-input">
-                        Author permision.
-                      </label>
-                    </div>
-
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" name="is_personal" id="is_personal" tabindex="2" class="form-check-input">
-                        Is internal personal.
-                      </label>
-                    </div>
-                    {% endif %}
 
                     {% if field.errors %}
                     <div class="alert alert-dismissible alert-warning" id="registration_error">
@@ -55,7 +39,6 @@
                       {% endif %}
                       </div>
                     {% endif %}
-
 
                     <!-- Zona del mensaje error -->
                     {% if messages %}
@@ -72,29 +55,11 @@
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-6 offset-sm-3">
-                          <input type="submit" name="update-submit" id="update-submit" tabindex="4" class="form-control btn btn-success" value="Actualizar">
+                          <input type="submit" name="update-submit" id="update-submit" tabindex="4" class="form-control btn btn-success" value="Refresh">
                         </div>
                       </div>
                     </div>
                 </form>
-                {% if prefix == '/auth/profile/' %}
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-sm-6 offset-sm-3">
-                    <a href="/auth/change_pass/" class="form-control btn btn-warning" role="button" aria-pressed="true">Change password</a>
-                  </div>
-                </div>
-              </div>
-              {% endif %}
-
-              {% if user.is_staff or prefix == '/auth/profile/' %}
-                <div class="row">
-                  <div class="col-sm-6 offset-sm-3">
-                    <a href="{% url 'remove_user' user_id=user_profile.id %}" class="form-control btn btn-danger" role="button" aria-pressed="true">Delete user</a>
-                  </div>
-                </div>
-              {% endif %}
-
               </div>
             </div>
           </div>
