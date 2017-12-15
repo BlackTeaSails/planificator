@@ -97,3 +97,14 @@ footer, .page-wrap:after {
   box-shadow: inset 0 0 0 1000px rgba(0,0,0,.8);
   color: rgba(230, 230, 230, 1.0)
 }
+
+.img-fluid {
+  max-width: 30%;
+  margin: auto;
+  display: block;
+}
+
+.center {
+  align-content: center;
+  text-align: center;
+}

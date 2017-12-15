@@ -1,0 +1,34 @@
+{% extends 'principal/shortpage.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container ">
+    <div class="card">
+      <h3 class="card-header ">Developer Team.</h3>
+  <!-- Example row of columns -->
+  <div class="row highlight">
+    <div class="col-sm-6">
+      <h2 class="center">Daniel Lopez Morales</h2>
+      <img src="{% static "images/project-circle.png" %}" class="img-fluid" alt="Planning image">
+      <p class="center">Android app developer expert with stong background.</p>
+    </div>
+    <div class="col-sm-6">
+      <h2 class="center">Jóse Manuel Mateo Martín</h2>
+      <img src="{% static "images/easy-circle.png" %}" class="img-fluid" alt="Easy equilibrium image">
+      <p class="center">Frontend expert that believes in JS power.</p>
+    </div>
+    <div class="col-sm-6">
+      <h2 class="center">Panteleev Nikita</h2>
+      <img src="{% static "images/reuse-circle.png" %}" class="img-fluid" alt="Building plane image">
+      <p class="center">Python enthusiast. From Russia with love.</p>
+   </div>
+   <div class="col-sm-6">
+     <h2 class="center">Alejandro Urdiales Manzanaro</h2>
+     <img src="{% static "images/easy-circle.png" %}" class="img-fluid" alt="Easy equilibrium image">
+     <p class="center">Matematician lover. Game programming enthusiast.</p>
+   </div>
+  </div>
+</div>
+</div>
+
+{% endblock content %}
