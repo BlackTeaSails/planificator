@@ -39,9 +39,11 @@
                   <!-- Zona del mensaje error -->
                   {% if messages %}
                     {% for message in messages %}
-                      <div id="alert-login-error" class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %} alert-dismissible">
+
+                      <div id="alert-login-error" class=" mt-3 alert {% if message.tags %} alert-{{ message.tags }}{% endif %} alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         {{ message|safe }}</div>
+
                     {% endfor %}
                   {% endif %}
                     <!-- Fin Zona del mensaje error -->
@@ -76,9 +78,8 @@
                         <div class="form-group">
                           {{ field }}
                           {% if field.errors %}
-                          <div class="alert alert-dismissible alert-warning" id="registration_error">
+                          <div class="alert alert-dismissible alert-warning mt-3" id="registration_error">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-
                             {{ field.errors }}
                             {% if field.help_text %}
                             <p class="help">{{ field.help_text|safe }}</p>
