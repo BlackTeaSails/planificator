@@ -9,6 +9,14 @@ from .forms import NewClientForm
 
 def add_client(request):
     form = NewClientForm()
+    if request.method == 'POST':
+        form = NewClientForm(request.POST)
+        if form.is_valid():
+            client = form.save(commit=False)
+            client.owner = request.user
+            client.save()
+            messages.success(request, client.name+' was added.')
+            return redirect("/clients/page-1/")
     return render(request, 'clients/new_client.html', {'form': form,})
 
 def edit_client(request, client_id):
@@ -18,7 +26,7 @@ def edit_client(request, client_id):
         form = NewClientForm(request.POST, instance=Client.objects.get(id=client_id))
         if form.is_valid():
             form.save()
-            messages.success(request, 'Client data were refreshed.')
+            messages.success(request, client.name+' data were refreshed.')
             return redirect("/clients/page-1/")
     return render(request, 'clients/edit_client.html', {'form': form, 'client': client})
 

@@ -108,3 +108,7 @@ footer, .page-wrap:after {
   align-content: center;
   text-align: center;
 }
+
+ul.pagination {
+  margin-top: 1em;
+}
