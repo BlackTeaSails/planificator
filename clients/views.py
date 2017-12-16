@@ -33,7 +33,7 @@ def edit_client(request, client_id):
 def client_list(request, page_number):
     prefix = '/clients/page-'
     clients = Client.objects.filter(owner = request.user.id).order_by('id')
-    paginator = Paginator(clients, 4)
+    paginator = Paginator(clients, 12)
     last_page = int(paginator.num_pages)
     clients = paginator.page(page_number)
     # si page_number > last_page toma o last_page == 0, toma 404

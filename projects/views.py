@@ -34,7 +34,7 @@ def remove_project(request, project_id):
 def projects_list(request, page_number):
     prefix = '/projects/page-'
     projects = Project.objects.filter(owner = request.user.id).order_by('creation_date')
-    paginator = Paginator(projects, 5)
+    paginator = Paginator(projects, 10)
     last_page = int(paginator.num_pages)
     projects = paginator.page(page_number)
     # si page_number > last_page toma o last_page == 0, toma 404

@@ -87,7 +87,7 @@ def modify_user(request, user_id):
 def user_list(request, page_number):
     prefix = '/auth/users/page-'
     users = User.objects.order_by('id')
-    paginator = Paginator(users, 1)
+    paginator = Paginator(users, 10)
     last_page = int(paginator.num_pages)
     users = paginator.page(page_number)
     # si page_number > last_page toma o last_page == 0, toma 404
