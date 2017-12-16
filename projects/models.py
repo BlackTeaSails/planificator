@@ -8,7 +8,6 @@ class Project(models.Model):
     creation_date = models.DateTimeField(default=timezone.now)
 
     stakeholders = models.ManyToManyField('clients.Client')
-    owner = models.ForeignKey('auth.User')
 
     def __str__(self):
         return self.name

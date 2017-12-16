@@ -15,7 +15,7 @@ def add_client(request):
             client = form.save(commit=False)
             client.owner = request.user
             client.save()
-            messages.success(request, client.name+' was added.')
+            messages.success(request, 'Cliente: '+client.name+' was added.')
             return redirect("/clients/page-1/")
     return render(request, 'clients/new_client.html', {'form': form,})
 
@@ -31,10 +31,12 @@ def edit_client(request, client_id):
     return render(request, 'clients/edit_client.html', {'form': form, 'client': client})
 
 def client_list(request, page_number):
+    prefix = '/clients/page-'
     clients = Client.objects.filter(owner = request.user.id).order_by('id')
-    paginator = Paginator(clients, 15)
+    paginator = Paginator(clients, 4)
     last_page = int(paginator.num_pages)
     clients = paginator.page(page_number)
     # si page_number > last_page toma o last_page == 0, toma 404
     pages = calculate_pages(int(page_number), last_page)
-    return render(request, 'clients/clients_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'clients':clients})
+    print(pages)
+    return render(request, 'clients/clients_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'clients':clients})
