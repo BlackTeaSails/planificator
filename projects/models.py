@@ -22,3 +22,8 @@ class Assessment(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
     requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
     value = models.IntegerField()
+
+class GeneralRequirement():
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    project = models.ManyToManyField('Project')
