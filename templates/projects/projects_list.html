@@ -22,7 +22,7 @@
             <li class="list-group-item">
         <div class="row justify-content-between editrow">
       <div class="col-10 vcenter">
-        <span>{{ project.name }} - {{ project.description }}</span>
+        <a href="/projects/detail/project-{{ project.id }}/">{{ project.name }}</a>- {{ project.description }}
     </div>
     <div class="col-2 align-self-center">
       <a href="/projects/edit/project-{{ project.id }}/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a>

@@ -5,7 +5,7 @@ from django.contrib import messages # error and success messages
 from django import forms
 
 from clients.models import Client
-from .models import Project, Requirement, GeneralRequirement, Assessment
+from .models import Project, Requirement, GeneralRequirement, Power
 from .forms import NewProjectForm
 
 def add_project(request):
@@ -20,7 +20,8 @@ def add_project(request):
             stakeholders = request.POST.getlist('stakeholders')
             project.save()
             for stakeholder in stakeholders:
-                project.stakeholders.add(stakeholder)
+                power = Power(project=project, client=Client.objects.all().get(id=stakeholder))
+                power.save()
             project.save()
             messages.success(request, 'Proyecto: '+ project.name +' was added.')
             return redirect("/projects/page-1/")
@@ -28,6 +29,12 @@ def add_project(request):
 
 def project_detail(request, project_id):
     project = Project.objects.get(id=project_id)
+    if request.method == 'POST':
+        weight = request.POST.get('weight')
+        client_id = request.POST.get('client_id')
+        power = Power.objects.all().get(client=client_id, project=project.id)
+        power.weight = weight
+        power.save()
     return render(request, 'projects/project_details.html', {'project':project})
 
 def projects_list(request, page_number):
@@ -40,13 +47,15 @@ def projects_list(request, page_number):
     pages = calculate_pages(int(page_number), last_page)
     return render(request, 'projects/projects_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'projects':projects})
 
-# abstracción para que los usuarios regulares ni sepan que existe - vista para el admin.
 def users_projects(request, user_id, page_number):
-    # filtrar los proyectos por el usuario que nos pasen, luego hacer lo mismo que en el listar normal
+    prefix = '/projects/page-'
+    projects = Project.objects.filter(owner = user_id).order_by('creation_date')
+    paginator = Paginator(projects, 10)
+    last_page = int(paginator.num_pages)
+    projects = paginator.page(page_number)
 
-    # añadir un if en el template que comprueba si el usuario con el que trabajamos es el mismo que esta logueado,
-    # si no lo es, añadir el nombre del usuario en la plantilla
-    return render(request, 'projects/projects_list.html', {})
+    pages = calculate_pages(int(page_number), last_page)
+    return render(request, 'projects/projects_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'projects':projects})
 
 # el metodo chungo que tiene que coger los requisitos abstractos y crear las copias asociadas
 # eliminar los requisitos asociados a eliminar y etc. (dos multiselect)
@@ -70,9 +79,19 @@ def new_requirement(request, project_id):
 def edit_requirement(request, requirement_id):
     return render(request, 'projects/projects_list.html', {})
 
-# cambia el estado del requisito a hecho o lo deshace
-# falta cambiar el estado y en el template de detalles del proyecto añadir el enlace por cada requisito
 def toggle_requirement(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
-    messages.success(request, 'Requirement: '+ requirement.name +' marked as done.')
+    requirement.state = not requirement.state
+    requirement.save()
+    if requirement.state:
+        messages.success(request, 'Requirement: '+ requirement.name +' marked as done.')
+    else:
+        messages.error(request, 'Requirement: '+ requirement.name +' unmarked as done.', extra_tags='warning')
+    return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
+
+# falta borrar de la base de datos
+def remove_requirement(request, requirement_id):
+    requirement = Requirement.objects.all().get(id=requirement_id)
+    # BORRAR DE LA BBDD
+    messages.error(request, 'Requirement: '+ requirement.name +' was deleted from the project.', extra_tags='warning')
     return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')

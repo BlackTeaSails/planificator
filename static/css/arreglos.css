@@ -112,3 +112,8 @@ footer, .page-wrap:after {
 ul.pagination {
   margin-top: 1em;
 }
+
+.modal-dialog {
+    max-width: 500px;
+    margin: 200px auto;
+}

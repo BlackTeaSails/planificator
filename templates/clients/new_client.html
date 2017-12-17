@@ -34,9 +34,9 @@
                     <div class="alert alert-dismissible alert-warning" id="registration_error">
                       <button type="button" class="close" data-dismiss="alert">&times;</button>
 
-                      {{ field.errors }}
-                      {% if field.help_text %}
-                      <p class="help">{{ field.help_text|safe }}</p>
+                      {{ form.errors }}
+                      {% if form.help_text %}
+                      <p class="help">{{ form.help_text|safe }}</p>
                       {% endif %}
                       </div>
                     {% endif %}

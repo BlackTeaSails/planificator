@@ -5,5 +5,7 @@ class Client(models.Model):
     charge = models.TextField()
     owner = models.ForeignKey('auth.User')
 
+    projects = models.ManyToManyField('projects.Project', through='projects.Power')
+
     def __str__(self):
         return self.name
