@@ -23,7 +23,7 @@ def edit_client(request, client_id):
     client = Client.objects.get(id=client_id)
     form = NewClientForm(instance=client)
     if request.method == 'POST':
-        form = NewClientForm(request.POST, instance=Client.objects.get(id=client_id))
+        form = NewClientForm(request.POST, instance=client)
         if form.is_valid():
             form.save()
             messages.success(request, client.name+' data were refreshed.')

@@ -23,7 +23,7 @@ def add_project(request):
                 power = Power(project=project, client=Client.objects.all().get(id=stakeholder))
                 power.save()
             project.save()
-            messages.success(request, 'Proyecto: '+ project.name +' was added.')
+            messages.success(request, 'Project: '+ project.name +' was added.')
             return redirect("/projects/page-1/")
     return render(request, 'projects/new_project.html', {'form': form,})
 
@@ -35,6 +35,7 @@ def project_detail(request, project_id):
         power = Power.objects.all().get(client=client_id, project=project.id)
         power.weight = weight
         power.save()
+        messages.success(request, power.client.name +'\'s weight in this project was edited.')
     return render(request, 'projects/project_details.html', {'project':project})
 
 def projects_list(request, page_number):
@@ -66,11 +67,10 @@ def remove_project(request, project_id):
     project = Project.objects.all().get(id=project_id)
     # FALTA BORRAR y METER ENLACES PARA BORRAR EN LA PLANTILLA DE LISTAR proyectos
     # Usar fa-calendar-times-o para el boton de borrar
-    messages.error(request, 'Proyecto: '+ project.name +' was deleted.', extra_tags='warning')
+    messages.error(request, 'Projects: '+ project.name +' was deleted.', extra_tags='warning')
     return redirect("/projects/page-1/")
 
 # crea dos requisitos, el general y el asociado a ese proyectos
-# aqui hace falta un form nuevo.
 def new_requirement(request, project_id):
     form = NewRequirementForm()
     if request.method == 'POST':
@@ -80,17 +80,26 @@ def new_requirement(request, project_id):
             project = Project.objects.all().get(id=project_id)
             requirement.project = project
             requirement.save()
+            # FALTA crear un GeneralRequirement para reutilizarlo
             for stakeholder in project.stakeholders.all():
                 assesment = Assessment(client=stakeholder, requirement=requirement )
                 assesment.save()
             requirement.save()
+            messages.success(request, 'Requirement: '+ requirement.name +' was created.')
             return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
     return render(request, 'requirements/new_requirement.html', {'form':form})
 
-# los requisitos asociados son mutables para adoptarse a las necesidades del cliente en cada momento en ese proyecto
-# el mismo form de new requirement pero pasandole la instancia
 def edit_requirement(request, requirement_id):
-    return render(request, 'projects/projects_list.html', {})
+    requirement = Requirement.objects.get(id=requirement_id)
+    form = NewRequirementForm(instance=requirement)
+    if request.method == 'POST':
+        form = NewRequirementForm(request.POST, instance=requirement)
+        if form.is_valid():
+            requirement = form.save(commit=False)
+            requirement.save()
+            messages.success(request, 'Requirement: '+ requirement.name +' was modified.')
+            return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
+    return render(request, 'requirements/new_requirement.html', {'form':form})
 
 def toggle_requirement(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
