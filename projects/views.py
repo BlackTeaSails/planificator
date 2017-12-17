@@ -30,32 +30,13 @@ def project_detail(request, project_id):
     project = Project.objects.get(id=project_id)
     return render(request, 'projects/project_details.html', {'project':project})
 
-# el metodo chungo que tiene que coger los requisitos abstractos y crear las copias asociadas
-# eliminar los requisitos asociados a eliminar y etc. (dos multiselect)
-def edit_project(request, project_id):
-    return render(request, 'projects/projects_list.html', {})
-
-# los requisitos asociados son mutables para adoptarse a las necesidades del cliente en cada momento en ese proyecto
-def edit_requirement(request, requirement_id):
-    return render(request, 'projects/projects_list.html', {})
-
-# crea dos requisitos, el general y el
-def new_requirement(request, project_id):
-    return render(request, 'projects/projects_list.html', {})
-
-def remove_project(request, project_id):
-    project = Project.objects.all().get(id=project_id)
-    # FALTA BORRAR y METER ENLACES PARA BORRAR EN LA PLANTILLA DE LISTAR proyectos
-    messages.error(request, 'Proyecto: '+ project.name +' was deleted.', extra_tags='warning')
-    return redirect("/projects/page-1/")
-
 def projects_list(request, page_number):
     prefix = '/projects/page-'
     projects = Project.objects.filter(owner = request.user.id).order_by('creation_date')
     paginator = Paginator(projects, 10)
     last_page = int(paginator.num_pages)
     projects = paginator.page(page_number)
-    # si page_number > last_page toma o last_page == 0, toma 404
+
     pages = calculate_pages(int(page_number), last_page)
     return render(request, 'projects/projects_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'projects':projects})
 
@@ -66,3 +47,32 @@ def users_projects(request, user_id, page_number):
     # añadir un if en el template que comprueba si el usuario con el que trabajamos es el mismo que esta logueado,
     # si no lo es, añadir el nombre del usuario en la plantilla
     return render(request, 'projects/projects_list.html', {})
+
+# el metodo chungo que tiene que coger los requisitos abstractos y crear las copias asociadas
+# eliminar los requisitos asociados a eliminar y etc. (dos multiselect)
+def edit_project(request, project_id):
+    return render(request, 'projects/projects_list.html', {})
+
+def remove_project(request, project_id):
+    project = Project.objects.all().get(id=project_id)
+    # FALTA BORRAR y METER ENLACES PARA BORRAR EN LA PLANTILLA DE LISTAR proyectos
+    # Usar fa-calendar-times-o para el boton de borrar
+    messages.error(request, 'Proyecto: '+ project.name +' was deleted.', extra_tags='warning')
+    return redirect("/projects/page-1/")
+
+# crea dos requisitos, el general y el asociado a ese proyectos
+# aqui hace falta un form nuevo.
+def new_requirement(request, project_id):
+    return render(request, 'projects/projects_list.html', {})
+
+# los requisitos asociados son mutables para adoptarse a las necesidades del cliente en cada momento en ese proyecto
+# el mismo form de new requirement pero pasandole la instancia
+def edit_requirement(request, requirement_id):
+    return render(request, 'projects/projects_list.html', {})
+
+# cambia el estado del requisito a hecho o lo deshace
+# falta cambiar el estado y en el template de detalles del proyecto añadir el enlace por cada requisito
+def toggle_requirement(request, requirement_id):
+    requirement = Requirement.objects.all().get(id=requirement_id)
+    messages.success(request, 'Requirement: '+ requirement.name +' marked as done.')
+    return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')

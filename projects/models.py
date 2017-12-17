@@ -12,18 +12,23 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
+    def getNextReleaseFeatures(self, capacity):
+
+        pass
+
 class Requirement(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     project = models.ForeignKey('Project')
     models.ManyToManyField('clients.Client', through='Assessment')
+    is_done = models.BooleanField(default=False)
 
 class Assessment(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
     requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
     value = models.IntegerField()
 
-class GeneralRequirement():
+class GeneralRequirement(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    project = models.ManyToManyField('Project')
+    projects = models.ManyToManyField('Project')
