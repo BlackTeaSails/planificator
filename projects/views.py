@@ -5,8 +5,8 @@ from django.contrib import messages # error and success messages
 from django import forms
 
 from clients.models import Client
-from .models import Project, Requirement, GeneralRequirement, Power
-from .forms import NewProjectForm
+from .models import Project, Requirement, GeneralRequirement, Power, Assessment
+from .forms import NewProjectForm, NewRequirementForm
 
 def add_project(request):
     clients = Client.objects.filter(owner = request.user.id)
@@ -72,7 +72,20 @@ def remove_project(request, project_id):
 # crea dos requisitos, el general y el asociado a ese proyectos
 # aqui hace falta un form nuevo.
 def new_requirement(request, project_id):
-    return render(request, 'projects/projects_list.html', {})
+    form = NewRequirementForm()
+    if request.method == 'POST':
+        form = NewRequirementForm(request.POST)
+        if form.is_valid():
+            requirement = form.save(commit=False)
+            project = Project.objects.all().get(id=project_id)
+            requirement.project = project
+            requirement.save()
+            for stakeholder in project.stakeholders.all():
+                assesment = Assessment(client=stakeholder, requirement=requirement )
+                assesment.save()
+            requirement.save()
+            return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
+    return render(request, 'requirements/new_requirement.html', {'form':form})
 
 # los requisitos asociados son mutables para adoptarse a las necesidades del cliente en cada momento en ese proyecto
 # el mismo form de new requirement pero pasandole la instancia

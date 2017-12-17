@@ -13,6 +13,11 @@ class Project(models.Model):
         return self.name
 
     def getNextReleaseFeatures(self, capacity):
+        # sacar los requisitos de ese proyecto
+        # filtrar los requisitos que no estan hechos
+        # hacer una esctrucutra con los requisitos asociados al beneficio y ordenarla
+        # cortar la estructura de manera acumulativa por capacidad
+        # devolver esos requisitos
         pass
 
 class Power(models.Model):
@@ -24,15 +29,17 @@ class Requirement(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     project = models.ForeignKey('Project')
-    models.ManyToManyField('clients.Client', through='Assessment')
+    effort = models.IntegerField(default=0)
+    assessments = models.ManyToManyField('clients.Client', through='projects.Assessment')
     state = models.BooleanField(default=False)
 
 class Assessment(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
     requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
-    value = models.IntegerField()
+    value = models.IntegerField(default=0)
 
 class GeneralRequirement(models.Model):
+    effort = models.IntegerField(default=0)
     name = models.CharField(max_length=100)
     description = models.TextField()
     projects = models.ManyToManyField('Project')
