@@ -28,15 +28,18 @@
         <div class="card border-0 w-100">
           <h5 class="card-header">Stakeholders: </h5>
           {% for cliente in project.stakeholders.all %}
-            <span class=" ml-3 m-2">{{ cliente.name }}</span>
+
+            <a href="/clients/edit/client-{{ cliente.id }}/" class="ml-3 m-2">{{ cliente.name }}</a>
           {% endfor %}
         </div>
       </li>
       <li class="list-group-item p-0 border-0">
         <div class="card border-0 w-100 align-self-center">
-          <h5 class="card-header "><span class="align-self-center">Requisitos: </span> <a href="/projects/edit_requirement/requirement-ID/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a></h5>
-              <!-- for sobre los requisitos del proyecto -->
-          <span class="m-3">Los requisitos no estan implementados AUN</span>
+          <h5 class="card-header "><span class="align-self-center">Requisitos: <a href="/projects/new_requirement/project-{{ project.id }}" class="btn btn-primary pull-right"><i class="fa fa-plus-square" aria-hidden="true"></i></a></span></h5>
+          {% for requirement in project.requirement_set.all %}
+            <span class=" ml-3 m-2">{{ requirement.name }} - {{ requirement.description }} <a href="/projects/edit_requirement/requirement-{{ requirement.id }}/" class="btn btn-warning pull-right"><i class="fa fa-bar-chart" aria-hidden="true"></i></a></span>
+          {% endfor %}
+          <span class="m-3">*NOTA - Los requisitos no estan implementados AUN, estos se han añadido desde el panel administrativo</span>
         </div>
       </li>
     </ul>

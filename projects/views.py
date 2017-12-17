@@ -28,20 +28,26 @@ def add_project(request):
 
 def project_detail(request, project_id):
     project = Project.objects.get(id=project_id)
-    print(project.stakeholders.all())
     return render(request, 'projects/project_details.html', {'project':project})
 
+# el metodo chungo que tiene que coger los requisitos abstractos y crear las copias asociadas
+# eliminar los requisitos asociados a eliminar y etc. (dos multiselect)
 def edit_project(request, project_id):
     return render(request, 'projects/projects_list.html', {})
 
+# los requisitos asociados son mutables para adoptarse a las necesidades del cliente en cada momento en ese proyecto
 def edit_requirement(request, requirement_id):
     return render(request, 'projects/projects_list.html', {})
 
+# crea dos requisitos, el general y el
 def new_requirement(request, project_id):
     return render(request, 'projects/projects_list.html', {})
 
 def remove_project(request, project_id):
-    return render(request, 'projects/projects_list.html', {})
+    project = Project.objects.all().get(id=project_id)
+    # FALTA BORRAR y METER ENLACES PARA BORRAR EN LA PLANTILLA DE LISTAR proyectos
+    messages.error(request, 'Proyecto: '+ project.name +' was deleted.', extra_tags='warning')
+    return redirect("/projects/page-1/")
 
 def projects_list(request, page_number):
     prefix = '/projects/page-'
@@ -53,5 +59,10 @@ def projects_list(request, page_number):
     pages = calculate_pages(int(page_number), last_page)
     return render(request, 'projects/projects_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'projects':projects})
 
+# abstracción para que los usuarios regulares ni sepan que existe - vista para el admin.
 def users_projects(request, user_id, page_number):
+    # filtrar los proyectos por el usuario que nos pasen, luego hacer lo mismo que en el listar normal
+
+    # añadir un if que comprueba si el usuario con el que trabajamos es el mismo que esta logueado,
+    # si no lo es, añadir el nombre del usuario en la plantilla
     return render(request, 'projects/projects_list.html', {})
