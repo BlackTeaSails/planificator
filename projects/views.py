@@ -63,6 +63,6 @@ def projects_list(request, page_number):
 def users_projects(request, user_id, page_number):
     # filtrar los proyectos por el usuario que nos pasen, luego hacer lo mismo que en el listar normal
 
-    # añadir un if que comprueba si el usuario con el que trabajamos es el mismo que esta logueado,
+    # añadir un if en el template que comprueba si el usuario con el que trabajamos es el mismo que esta logueado,
     # si no lo es, añadir el nombre del usuario en la plantilla
     return render(request, 'projects/projects_list.html', {})
