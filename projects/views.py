@@ -110,9 +110,8 @@ def toggle_requirement(request, requirement_id):
         messages.error(request, 'Requirement: '+ requirement.name +' unmarked as done.', extra_tags='warning')
     return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
 
-# falta borrar de la base de datos
 def remove_requirement(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
-    # BORRAR DE LA BBDD
+    requirement.delete()
     messages.error(request, 'Requirement: '+ requirement.name +' was deleted from the project.', extra_tags='warning')
     return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
