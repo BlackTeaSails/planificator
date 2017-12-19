@@ -119,4 +119,4 @@ def remove_requirement(request, requirement_id):
 def assessments(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
 
-    return render(request, 'requirements/assessment.html', {'assessment':assesment})
+    return render(request, 'requirements/assessments.html', {'requirement':requirement})
