@@ -25,6 +25,9 @@ class Power(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     weight = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.client.name+" weight in project"+self.project.name
+
 class Requirement(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -33,10 +36,16 @@ class Requirement(models.Model):
     assessments = models.ManyToManyField('clients.Client', through='projects.Assessment')
     state = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
 class Assessment(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
     requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE)
     value = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.client.name + " assessment of requirement: " + self.requirement.name
 
 class GeneralRequirement(models.Model):
     effort = models.IntegerField(default=0)

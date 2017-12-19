@@ -58,11 +58,6 @@ def users_projects(request, user_id, page_number):
     pages = calculate_pages(int(page_number), last_page)
     return render(request, 'projects/projects_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'projects':projects})
 
-# el metodo chungo que tiene que coger los requisitos abstractos y crear las copias asociadas
-# eliminar los requisitos asociados a eliminar y etc. (dos multiselect)
-def edit_project(request, project_id):
-    return render(request, 'projects/projects_list.html', {})
-
 def remove_project(request, project_id):
     project = Project.objects.all().get(id=project_id)
     project.delete()
@@ -118,5 +113,12 @@ def remove_requirement(request, requirement_id):
 
 def assessments(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
-
+    if request.method == 'POST':
+        for client in requirement.project.stakeholders.all():
+            print(request.POST.get("value-client-"+str(client.id)))
+            assessment = Assessment.objects.all().get(client=client.id, requirement=requirement_id)
+            assessment.value = request.POST.get("value-client-"+str(client.id))
+            assessment.save()
+        messages.success(request, 'Clients\' assessments:  were saved')
+        return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
     return render(request, 'requirements/assessments.html', {'requirement':requirement})
