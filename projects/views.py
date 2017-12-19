@@ -65,8 +65,7 @@ def edit_project(request, project_id):
 
 def remove_project(request, project_id):
     project = Project.objects.all().get(id=project_id)
-    # FALTA BORRAR y METER ENLACES PARA BORRAR EN LA PLANTILLA DE LISTAR proyectos
-    # Usar fa-calendar-times-o para el boton de borrar
+    project.delete()
     messages.error(request, 'Projects: '+ project.name +' was deleted.', extra_tags='warning')
     return redirect("/projects/page-1/")
 
