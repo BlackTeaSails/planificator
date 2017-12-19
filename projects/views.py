@@ -66,7 +66,7 @@ def edit_project(request, project_id):
 def remove_project(request, project_id):
     project = Project.objects.all().get(id=project_id)
     project.delete()
-    messages.error(request, 'Projects: '+ project.name +' was deleted.', extra_tags='danger')
+    messages.error(request, 'Projects: '+ project.name +' was deleted.', extra_tags='success')
     return redirect("/projects/page-1/")
 
 # crea dos requisitos, el general y el asociado a ese proyectos
@@ -113,5 +113,10 @@ def toggle_requirement(request, requirement_id):
 def remove_requirement(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
     requirement.delete()
-    messages.error(request, 'Requirement: '+ requirement.name +' was deleted from the project.', extra_tags='danger')
+    messages.error(request, 'Requirement: '+ requirement.name +' was deleted from the project.', extra_tags='success')
     return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
+
+def assessments(request, requirement_id):
+    requirement = Requirement.objects.all().get(id=requirement_id)
+
+    return render(request, 'requirements/assessment.html', {'assessment':assesment})
