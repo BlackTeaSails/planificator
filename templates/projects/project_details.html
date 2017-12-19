@@ -99,9 +99,10 @@
           </span></h5>
           {% for requirement in project.requirement_set.all %}
             <span class=" ml-3 m-2">{{ requirement.name }} - {{ requirement.description }}
-              <a href="/projects/edit/requirement-{{ requirement.id }}/" class="btn btn-warning pull-right"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+              <a href="/projects/remove/requirement-{{ requirement.id }}/" class="btn btn-danger pull-right"><i class="fa fa-times" aria-hidden="true"></i></a>
+              <a href="/projects/edit/requirement-{{ requirement.id }}/" class="btn btn-warning pull-right mr-3"><i class="fa fa-wrench" aria-hidden="true"></i></a>
               <a href="/projects/toggle/requirement-{{ requirement.id }}/" class="btn btn-success pull-right mr-3"><i class="fa fa-{% if requirement.state %}check-{% endif %}square-o" aria-hidden="true"></i></a>
-              <a href="/projects/remove/requirement-{{ requirement.id }}/" class="btn btn-danger pull-right mr-3"><i class="fa fa-times" aria-hidden="true"></i></a>
+
             </span>
           {% endfor %}
         </div>
