@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+import operator
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
@@ -13,13 +14,26 @@ class Project(models.Model):
         return self.name
 
     def getNextReleaseFeatures(self, capacity):
-        sortedRequirements = sorted(Requirement.objects.all().filter(project=self).filter(state=False), key=lambda t: t.benefit)
+        for requirement in Requirement.objects.all():
+            requirement.last_released = False
+            requirement.save()
+
+        requirementsObjects = Requirement.objects.all().filter(project=self).filter(state=False)
+        requirements = {}
+        for requirement in requirementsObjects:
+            requirements[requirement.id] = requirement.benefit
+        sortedRequirements = reversed(sorted(requirements.items(), key=operator.itemgetter(1)))
+
         requirementsRelease = []
         sum=0
         for requirement in sortedRequirements:
-            if (sum + requirement.effort <=int(capacity)):
-                sum = sum + requirement.effort
-                requirementsRelease.append(requirement.id)
+            req = requirementsObjects.get(id=requirement[0])
+            if (sum + req.effort <= int(capacity)):
+                sum = sum + req.effort
+                requirementsRelease.append(req.id)
+                req.last_released = True
+            req.save()
+
         return Requirement.objects.filter(id__in=requirementsRelease)
 
 class Power(models.Model):
@@ -37,6 +51,7 @@ class Requirement(models.Model):
     effort = models.IntegerField(default=0)
     assessments = models.ManyToManyField('clients.Client', through='projects.Assessment')
     state = models.BooleanField(default=False)
+    last_released = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -48,7 +63,7 @@ class Requirement(models.Model):
             power = client.power_set.all().get(project=self.project.id)
             assesment = self.assessment_set.all().get(client=client.id)
             totalBenefit = totalBenefit + (power.weight * assesment.value)
-        return totalBenefit
+        return (totalBenefit//self.effort)
 
 class Assessment(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
