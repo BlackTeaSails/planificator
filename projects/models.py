@@ -18,7 +18,16 @@ class Project(models.Model):
         # hacer una esctrucutra con los requisitos asociados al beneficio y ordenarla
         # cortar la estructura de manera acumulativa por capacidad
         # devolver esos requisitos
-        pass
+        requirements = Requirement.objects.all().filter(project=self)
+        requirementsRelease = []
+        sum=0
+        for requirement in requirements:
+            sum = sum + requirement.effort
+            if (sum<=int(capacity)):
+                requirementsRelease.append(requirement.id)
+            else:
+                break
+        return Requirement.objects.filter(id__in=requirementsRelease)
 
 class Power(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)

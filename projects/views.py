@@ -120,10 +120,19 @@ def assessments(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
     if request.method == 'POST':
         for client in requirement.project.stakeholders.all():
-            print(request.POST.get("value-client-"+str(client.id)))
             assessment = Assessment.objects.all().get(client=client.id, requirement=requirement_id)
             assessment.value = request.POST.get("value-client-"+str(client.id))
             assessment.save()
         messages.success(request, 'Clients\' assessments:  were saved')
         return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
     return render(request, 'requirements/assessments.html', {'requirement':requirement})
+
+def next_release(request, project_id):
+    project = Project.objects.all().get(id=project_id)
+    requirements = Requirement.objects.none()
+    if request.method == 'POST':
+        capacity = request.POST.get("capacity")
+        requirements = project.getNextReleaseFeatures(capacity)
+        print (requirements)
+
+    return render(request, 'projects/next_release.html', {'project': project, 'requirements': requirements})
