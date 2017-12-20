@@ -13,20 +13,13 @@ class Project(models.Model):
         return self.name
 
     def getNextReleaseFeatures(self, capacity):
-        # sacar los requisitos de ese proyecto
-        # filtrar los requisitos que no estan hechos
-        # hacer una esctrucutra con los requisitos asociados al beneficio y ordenarla
-        # cortar la estructura de manera acumulativa por capacidad
-        # devolver esos requisitos
-        requirements = Requirement.objects.all().filter(project=self)
+        sortedRequirements = sorted(Requirement.objects.all().filter(project=self).filter(state=False), key=lambda t: t.benefit)
         requirementsRelease = []
         sum=0
-        for requirement in requirements:
-            sum = sum + requirement.effort
-            if (sum<=int(capacity)):
+        for requirement in sortedRequirements:
+            if (sum + requirement.effort <=int(capacity)):
+                sum = sum + requirement.effort
                 requirementsRelease.append(requirement.id)
-            else:
-                break
         return Requirement.objects.filter(id__in=requirementsRelease)
 
 class Power(models.Model):
@@ -47,6 +40,15 @@ class Requirement(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def benefit(self):
+        totalBenefit = 0
+        for client in self.project.stakeholders.all():
+            power = client.power_set.all().get(project=self.project.id)
+            assesment = self.assessment_set.all().get(client=client.id)
+            totalBenefit = totalBenefit + (power.weight * assesment.value)
+        return totalBenefit
 
 class Assessment(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
