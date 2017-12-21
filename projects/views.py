@@ -129,7 +129,7 @@ def assessments(request, requirement_id):
 
 def next_release(request, project_id):
     project = Project.objects.all().get(id=project_id)
-    requirements = Requirement.objects.all().filter(last_released=True)
+    requirements = Requirement.objects.all().filter(project=project).filter(last_released=True)
     if request.method == 'POST':
         capacity = request.POST.get("capacity")
         requirements = project.getNextReleaseFeatures(capacity)

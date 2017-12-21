@@ -14,13 +14,11 @@ class Project(models.Model):
         return self.name
 
     def getNextReleaseFeatures(self, capacity):
-        for requirement in Requirement.objects.all():
-            requirement.last_released = False
-            requirement.save()
-
         requirementsObjects = Requirement.objects.all().filter(project=self).filter(state=False)
         requirements = {}
         for requirement in requirementsObjects:
+            requirement.last_released = False
+            requirement.save()
             requirements[requirement.id] = requirement.benefit
         sortedRequirements = reversed(sorted(requirements.items(), key=operator.itemgetter(1)))
 
