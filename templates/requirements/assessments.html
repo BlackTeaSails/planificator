@@ -1,0 +1,79 @@
+{% extends 'projects/modals_base.html' %} {% load static %} {% block content %} {% load getweight %}
+
+<div class="container ">
+  <div class="card">
+    <h3 class="card-header ">{{ requirement.project.name }}: {{ requirement.name }} </h3>
+    <!-- Zona del mensaje error -->
+    {% if messages %}
+    <div class="col-md-8 offset-md-2 mt-3">
+      {% for message in messages %} {% if message.tags %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible" id="modification-{{ message.tags }}">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> {{ message|safe }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <!-- Fin Zona del mensaje error -->
+    <ul class="list-group">
+      <li class="list-group-item">
+        <div class="row justify-content-between editrow">
+          <div class="col-4">
+            Client's name
+          </div>
+          <div class="col-4 text-center">
+            Client's weight in this project
+          </div>
+          <div class="col-4 text-right">
+            Client assessment of this requirement
+          </div>
+        </div>
+      </li>
+      <form id="clients-form" action="" method="post" role="form">
+        {% csrf_token %}
+      {% for client in requirement.project.stakeholders.all %}
+      {% with client.power_set|getweight:requirement.project.id as weight %}
+      {% with client.assessment_set|getassesstment:requirement.id as assessment %}
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="row justify-content-between editrow">
+            <div class="col-4">
+              {{ client.name }}
+            </div>
+            <div class="col-4 text-center">
+              {{ weight }}
+            </div>
+            <div class="col-4 text-right">
+              <div class="pull-right">
+                  <input class="" type="number" name="value-client-{{ client.id }}" min="1" max="100" value="{{ assessment }}">
+              </div>
+            </div>
+          </div>
+        </li>
+      {% endwith %}
+      {% endwith %}
+      {% endfor %}
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="row justify-content-between editrow">
+            <div class="col-4">
+              <a href="/projects/detail/project-{{ requirement.project.id }}/" class="btn btn-danger">Cancel</a>
+            </div>
+            <div class="col-4 col-offset-4 text-right">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-6 offset-6">
+                    <input type="submit" name="submit" id="submit" tabindex="4" class="form-control btn btn-success" value="Submit">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+    </ul>
+
+
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,18 @@
+input[type="number"] {
+	height: 45px;
+	border: 1px solid #ddd;
+	font-size: 16px;
+	-webkit-transition: all 0.1s linear;
+	-moz-transition: all 0.1s linear;
+	transition: all 0.1s linear;
+  min-width: 60%;
+	align-items: center;
+	align-content: center;
+	text-align: center;
+}
+
+.weight-form {
+  justify-content: space-around;
+  display: flex;
+  margin-bottom: 0px;
+}

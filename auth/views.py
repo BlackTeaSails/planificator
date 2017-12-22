@@ -85,13 +85,14 @@ def modify_user(request, user_id):
 
 
 def user_list(request, page_number):
+    prefix = '/auth/users/page-'
     users = User.objects.order_by('id')
-    paginator = Paginator(users, 15)
+    paginator = Paginator(users, 10)
     last_page = int(paginator.num_pages)
     users = paginator.page(page_number)
     # si page_number > last_page toma o last_page == 0, toma 404
     pages = calculate_pages(int(page_number), last_page)
-    return render(request, 'registration/users.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'users':users})
+    return render(request, 'registration/users.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix,'users':users})
 
 
 def recover_view(request):

@@ -5,7 +5,7 @@
 
 <div class="container ">
   <div class="card">
-    <h3 class="card-header ">Clients <a href="/clients/add_client/" class="btn btn-primary pull-right"><i class="fa fa-user-plus" aria-hidden="true"></i></a></h3>
+    <h3 class="card-header ">Projects <a href="/projects/add_project/" class="btn btn-primary pull-right"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></a></h3>
     <!-- Zona del mensaje error -->
     {% if messages %}
     <div class="col-md-8 offset-md-2 mt-3">
@@ -18,14 +18,15 @@
     {% endif %}
     <!-- Fin Zona del mensaje error -->
     <ul class="list-group">
-      {% for client in clients %}
+      {% for project in projects %}
             <li class="list-group-item">
         <div class="row justify-content-between editrow">
       <div class="col-10 vcenter">
-        <span>{{ client.name }} - {{ client.charge }}</span>
+        <a href="/projects/detail/project-{{ project.id }}/">{{ project.name }}</a>- {{ project.description }}
     </div>
-    <div class="col-2 align-self-center">
-      <a href="/clients/edit/client-{{ client.id }}/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a>
+    <div class="align-self-center">
+          <a href="/projects/edit/project-{{ project.id }}/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a>
+          <a href="/projects/remove/project-{{ project.id }}/" class="btn btn-danger pull-right mr-3"><i class="fa fa-times" aria-hidden="true"></i></a>
     </div>
   </div>
   </li>
@@ -33,7 +34,7 @@
     </ul>
     <ul class="pagination justify-content-center">
       <li class="page-item {% if page|add:" 0 " == 1 %} disabled{% endif %}">
-        <a class="page-link" href="{{ prefix}}{{ page|add:" -1 " }}/">Previous</a>
+        <a class="page-link" href="{{ prefix }}{{ page|add:" -1 " }}/">Previous</a>
       </li>
       {% for i in range %} {% if i == page|add:"0" %}
       <li class="page-item active">
@@ -53,7 +54,7 @@
       </li>
       {% endif %}
       <li class="page-item {% if page|add:" 0 " == last_page %} disabled {% endif %}">
-        <a class="page-link" href="{{ prefix}}{{ page|add:" 1 " }}/">Next</a>
+        <a class="page-link" href="{{ prefix }}{{ page|add:" 1 " }}/">Next</a>
       </li>
     </ul>
   </div>

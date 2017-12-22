@@ -8,10 +8,8 @@ def calculate_pages(current_page, last_page):
         pages.append(current_page-1)
     if current_page>2:
         pages.append(current_page)
-    if current_page<last_page-1 and current_page>1:
+    if (current_page<last_page-1 and current_page>1) or(current_page<last_page-1 and last_page > 3):
         pages.append(current_page+1)
-    if current_page<last_page-1 and last_page > 3:
-        pages.append(last_page-1)
-    if current_page<last_page:
+    if current_page<last_page and not last_page in pages:
         pages.append(last_page)
     return pages
