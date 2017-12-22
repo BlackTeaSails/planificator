@@ -88,14 +88,14 @@
       <li class="list-group-item p-0 border-0">
         <div class="card border-0 w-100 align-self-center">
           <h5 class="card-header "><span class="align-self-center">Requisitos:
-            <a href="/projects/new_requirement/project-{{ project.id }}/" class="btn btn-primary pull-right"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+            <a href="/requirements/new_requirement/project-{{ project.id }}/" class="btn btn-primary pull-right"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
             <a href="/projects/release/project-{{ project.id }}/" class="btn btn-primary pull-right mr-3"><i class="fa fa-calculator" aria-hidden="true"></i></a>
           </span></h5>
           {% for requirement in project.requirement_set.all %}
-            <span class=" ml-3 m-2"><a href="/projects/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} and with effort: {{ requirement.effort }} and a totalBenefit of: {{ requirement.benefit }}
-              <a href="/projects/remove/requirement-{{ requirement.id }}/" class="btn btn-danger pull-right"><i class="fa fa-times" aria-hidden="true"></i></a>
-              <a href="/projects/assessments/requirement-{{ requirement.id }}/" class="btn btn-warning pull-right mr-3"><i class="fa fa-cogs" aria-hidden="true"></i></a>
-              <a href="/projects/toggle/requirement-{{ requirement.id }}/" class="btn btn-success pull-right mr-3"><i class="fa fa-{% if requirement.state %}check-{% endif %}square-o" aria-hidden="true"></i></a>
+            <span class=" ml-3 m-2"><a href="/requirements/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} and with effort: {{ requirement.effort }} and a total benefit of: {{ requirement.benefit }}
+              <a href="/requirements/remove/requirement-{{ requirement.id }}/" class="btn btn-danger pull-right"><i class="fa fa-times" aria-hidden="true"></i></a>
+              <a href="/requirements/assessments/requirement-{{ requirement.id }}/" class="btn btn-warning pull-right mr-3"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+              <a href="/requirements/toggle/requirement-{{ requirement.id }}/" class="btn btn-success pull-right mr-3"><i class="fa fa-{% if requirement.state %}check-{% endif %}square-o" aria-hidden="true"></i></a>
             </span>
           {% endfor %}
         </div>
