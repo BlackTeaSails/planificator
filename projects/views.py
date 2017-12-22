@@ -6,7 +6,7 @@ from django import forms
 
 from clients.models import Client
 from .models import Project, Requirement, GeneralRequirement, Power, Assessment
-from .forms import NewProjectForm, NewRequirementForm
+from .forms import NewProjectForm, NewRequirementForm, EditProjectForm
 
 def add_project(request):
     clients = Client.objects.filter(owner = request.user.id)
@@ -29,8 +29,17 @@ def add_project(request):
 
 # implementar edición del nombre y descripción de un proyecto
 def edit_project(request, project_id):
-    project = Project.objects.get(id=project_id)
-    return render(request, 'projects/project_details.html', {'project':project})
+    project = Project.objects.all().get(id=project_id)
+    form = EditProjectForm(instance=project)
+    if request.method == 'POST':
+        form = EditProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.owner = request.user
+            project.save()
+            messages.success(request, 'Project: '+ project.name +' was edited.')
+            return redirect("/projects/page-1/")
+    return render(request, 'projects/edit_project.html', {'form': form,'project': project,})
 
 def project_detail(request, project_id):
     project = Project.objects.get(id=project_id)

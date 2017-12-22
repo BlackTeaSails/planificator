@@ -1,0 +1,75 @@
+{% extends 'principal/shortpage.html' %}
+{% load staticfiles %}
+
+{% block morecss %}
+<link rel="stylesheet" href="{% static "css/logreg.css" %}">
+{% endblock morecss %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class=".card panel-login">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-12">
+                <h2 id="client-form"> Edit project {{ project.name }} </h2>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="card-block">
+            <div class="row">
+              <div class="col-lg-12">
+                <form id="clients-form" action="{{ prefix }}" method="post" role="form">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+
+                    {% if field.errors %}
+                    <div class="alert alert-dismissible alert-warning" id="registration_error">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                      {{ field.errors }}
+                      {% if field.help_text %}
+                      <p class="help">{{ field.help_text|safe }}</p>
+                      {% endif %}
+                      </div>
+                    {% endif %}
+
+                    <!-- Zona del mensaje error -->
+                    {% if messages %}
+                      {% for message in messages %}
+                      {% if message.tags %}
+                        <div  class="alert alert-{{ message.tags }} alert-dismissible" id="modification-{{ message.tags }}">
+                      {% endif %}
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          {{ message|safe }}</div>
+                      {% endfor %}
+                    {% endif %}
+                      <!-- Fin Zona del mensaje error -->
+
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6 offset-sm-3">
+                          <input type="submit" name="update-submit" id="update-submit" tabindex="4" class="form-control btn btn-success" value="Save">
+                        </div>
+                      </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content%}
+
+{% block js %}
+
+{% endblock js %}
