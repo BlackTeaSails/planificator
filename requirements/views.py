@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator # for paginate the users
 from planificator.utils import calculate_pages # extra utility to calculate the surroinding page numbers of the actual page
 from django.contrib import messages # error and success messages
+from django.contrib.auth.models import User
+
 
 from clients.models import Client
 from projects.models import Project
@@ -10,7 +12,14 @@ from .forms import NewRequirementForm
 
 #Falta listar requisitos generales
 def list_requirements(request, page_number):
-    return render(request, 'main/team.html', {})
+    prefix = '/requirements/page-'
+    requirements = GeneralRequirement.objects.filter(owner = request.user.id).order_by('id')
+    paginator = Paginator(requirements, 15)
+    last_page = int(paginator.num_pages)
+    requirements = paginator.page(page_number)
+
+    pages = calculate_pages(int(page_number), last_page)
+    return render(request, 'requirements/requirements_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'requirements':requirements})
 
 # crea dos requisitos, el general y el asociado a ese proyectos
 def new_requirement(request, project_id):
@@ -22,6 +31,13 @@ def new_requirement(request, project_id):
             project = Project.objects.all().get(id=project_id)
             requirement.project = project
             requirement.save()
+            general = GeneralRequirement(effort=requirement.effort,
+                name=requirement.name,
+                description=requirement.description,
+                owner = User.objects.all().get(id=request.user.id))
+            general.save()
+            general.projects.add(project)
+            general.save()
             # FALTA crear un GeneralRequirement para reutilizarlo
             for stakeholder in project.stakeholders.all():
                 assesment = Assessment(client=stakeholder, requirement=requirement )

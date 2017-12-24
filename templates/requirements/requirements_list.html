@@ -1,0 +1,63 @@
+{% extends 'principal/shortpage.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container ">
+  <div class="card">
+    <h3 class="card-header ">Requirements</h3>
+    <!-- Zona del mensaje error -->
+    {% if messages %}
+    <div class="col-md-8 offset-md-2 mt-3">
+      {% for message in messages %} {% if message.tags %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible" id="modification-{{ message.tags }}">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> {{ message|safe }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <!-- Fin Zona del mensaje error -->
+    <ul class="list-group">
+      {% for requirement in requirements %}
+            <li class="list-group-item">
+        <div class="row justify-content-between editrow">
+      <div class="col-10 vcenter">
+        <a href="/projects/detail/project-{{ project.id }}/">{{ requirement.name }}</a>- {{ requirement.description }}
+    </div>
+    <div class="align-self-center">
+          <a href="/requirements/edit/requirement-{{ project.id }}/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a>
+          <a href="/requirements/remove/requirement-{{ project.id }}/" class="btn btn-danger pull-right mr-3"><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  </li>
+      {% endfor %}
+    </ul>
+    <ul class="pagination justify-content-center">
+      <li class="page-item {% if page|add:" 0 " == 1 %} disabled{% endif %}">
+        <a class="page-link" href="{{ prefix }}{{ page|add:" -1 " }}/">Previous</a>
+      </li>
+      {% for i in range %} {% if i == page|add:"0" %}
+      <li class="page-item active">
+        <span class="page-link">
+        {{ i }}
+        <span class="sr-only">(current)</span>
+        </span>
+      </li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="{{ prefix }}{{ i }}/">{{ i }}</a></li>
+      {% endif %} {% endfor %} {% if page|add:"0" not in range %}
+      <li class="page-item active">
+        <span class="page-link">
+      {{ page }}
+      <span class="sr-only">(current)</span>
+        </span>
+      </li>
+      {% endif %}
+      <li class="page-item {% if page|add:" 0 " == last_page %} disabled {% endif %}">
+        <a class="page-link" href="{{ prefix }}{{ page|add:" 1 " }}/">Next</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+{% endblock content %}

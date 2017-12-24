@@ -32,5 +32,6 @@ class Assessment(models.Model):
 class GeneralRequirement(models.Model):
     effort = models.IntegerField(default=0)
     name = models.CharField(max_length=100)
+    owner = models.ForeignKey('auth.User')
     description = models.TextField()
     projects = models.ManyToManyField('projects.Project')
