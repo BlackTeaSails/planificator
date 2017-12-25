@@ -75,6 +75,24 @@ def remove_requirement(request, requirement_id):
     messages.error(request, 'Requirement: '+ requirement.name +' was deleted from the project.', extra_tags='success')
     return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
 
+def remove_general_requirement(request, requirement_id):
+    requirement = GeneralRequirement.objects.all().get(id=requirement_id)
+    requirement.delete()
+    messages.error(request, 'General Requirement: '+ requirement.name +' was deleted', extra_tags='success')
+    return redirect('/requirements/page-1/')
+
+def edit_general_requirement(request, requirement_id):
+    requirement = GeneralRequirement.objects.get(id=requirement_id)
+    form = NewRequirementForm(instance=requirement)
+    if request.method == 'POST':
+        form = NewRequirementForm(request.POST, instance=requirement)
+        if form.is_valid():
+            requirement = form.save(commit=False)
+            requirement.save()
+            messages.success(request, 'General Requirement: '+ requirement.name +' was modified.')
+            return redirect('/requirements/page-1/')
+    return render(request, 'requirements/new_requirement.html', {'form':form})
+
 def assessments(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
     if request.method == 'POST':

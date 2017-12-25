@@ -22,11 +22,11 @@
             <li class="list-group-item">
         <div class="row justify-content-between editrow">
       <div class="col-10 vcenter">
-        <a href="/projects/detail/project-{{ project.id }}/">{{ requirement.name }}</a>- {{ requirement.description }}
+        <a href="/requirements/edit/general_requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }}
     </div>
     <div class="align-self-center">
-          <a href="/requirements/edit/requirement-{{ project.id }}/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a>
-          <a href="/requirements/remove/requirement-{{ project.id }}/" class="btn btn-danger pull-right mr-3"><i class="fa fa-times" aria-hidden="true"></i></a>
+          <a href="/requirements/edit/general_requirement-{{ requirement.id }}/" class="btn btn-warning pull-right"><i class="fa fa-wrench" aria-hidden="true"></i></a>
+          <a href="/requirements/remove/general_requirement-{{ requirement.id }}/" class="btn btn-danger pull-right mr-3"><i class="fa fa-times" aria-hidden="true"></i></a>
     </div>
   </div>
   </li>
