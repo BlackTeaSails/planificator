@@ -98,7 +98,7 @@ footer, .page-wrap:after {
   color: rgba(230, 230, 230, 1.0)
 }
 
-.img-fluid {
+.custom-img-fluid {
   max-width: 30%;
   margin: auto;
   display: block;
@@ -116,4 +116,16 @@ ul.pagination {
 .modal-dialog {
     max-width: 500px;
     margin: 200px auto;
+}
+
+.sangria {
+    text-indent: 50px;
+}
+
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 85px;
+  right: 30px;
+  z-index: 99;
 }

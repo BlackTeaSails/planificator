@@ -42,4 +42,4 @@ class Power(models.Model):
     weight = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.client.name+" weight in project"+self.project.name
+        return self.client.name+" weight in project "+self.project.name
