@@ -25,7 +25,7 @@
           <h5 class="card-header "><span class="align-self-center">Requisitos:
           </span></h5>
           {% for requirement in requirements %}
-            <span class=" ml-3 m-2"><a href="/projects/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} with effort: {{ requirement.effort }} and total a benefit of {{ requirement.benefit }}
+            <span class=" ml-3 m-2"><a href="/requirements/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} with effort: {{ requirement.effort }} and total a benefit of {{ requirement.benefit }}
 
             </span>
           {% endfor %}
