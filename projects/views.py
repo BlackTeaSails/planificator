@@ -28,7 +28,6 @@ def add_project(request):
             return redirect("/projects/page-1/")
     return render(request, 'projects/new_project.html', {'form': form,})
 
-# implementar edición del nombre y descripción de un proyecto
 def edit_project(request, project_id):
     project = Project.objects.all().get(id=project_id)
     form = EditProjectForm(instance=project)

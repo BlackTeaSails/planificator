@@ -10,7 +10,6 @@ from projects.models import Project
 from .models import Requirement, GeneralRequirement, Assessment
 from .forms import NewRequirementForm
 
-#Falta listar requisitos generales
 def list_requirements(request, page_number):
     prefix = '/requirements/page-'
     requirements = GeneralRequirement.objects.filter(owner = request.user.id).order_by('id')
@@ -21,7 +20,6 @@ def list_requirements(request, page_number):
     pages = calculate_pages(int(page_number), last_page)
     return render(request, 'requirements/requirements_list.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'requirements':requirements})
 
-# crea dos requisitos, el general y el asociado a ese proyectos
 def new_requirement(request, project_id):
     form = NewRequirementForm()
     if request.method == 'POST':
@@ -38,7 +36,6 @@ def new_requirement(request, project_id):
             general.save()
             general.projects.add(project)
             general.save()
-            # FALTA crear un GeneralRequirement para reutilizarlo
             for stakeholder in project.stakeholders.all():
                 assesment = Assessment(client=stakeholder, requirement=requirement )
                 assesment.save()
@@ -103,3 +100,14 @@ def assessments(request, requirement_id):
         messages.success(request, 'Clients\' assessments:  were saved')
         return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
     return render(request, 'requirements/assessments.html', {'requirement':requirement})
+
+def reuse_requirement(request, project_id):
+    project = Project.objects.get(id=project_id)
+    # Sacar los requisitos generales para la plantilla
+    if request.method == 'POST':
+        effort = request.POST.get('effort')
+        requirement_id = request.POST.get('requirement_id')
+        # Sacar el requisito general de objectos segun el requirement_id
+        # Crear un requisito asociado al proyecto con los datos del general y esfuerzo recibido.
+        messages.success(request, requirement.name +' - requirement was reused in this project.')
+    return render(request, 'requirements/reuse_requirement.html', {'project':project, 'requirements':requirements})

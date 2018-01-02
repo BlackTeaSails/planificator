@@ -89,6 +89,7 @@
         <div class="card border-0 w-100 align-self-center">
           <h5 class="card-header "><span class="align-self-center">Requirements:
             <a href="/requirements/new_requirement/project-{{ project.id }}/" class="btn btn-primary pull-right"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+            <a href="/requirements/reuse_requirement/project-{{ project.id }}/" class="btn btn-primary pull-right mr-3"><i class="fa fa-puzzle-piece" aria-hidden="true"></i></a>
             <a href="/projects/release/project-{{ project.id }}/" class="btn btn-primary pull-right mr-3"><i class="fa fa-calculator" aria-hidden="true"></i></a>
           </span></h5>
           {% for requirement in project.requirement_set.all %}
