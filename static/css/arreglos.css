@@ -165,3 +165,12 @@ ul.pagination {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
+
+@media screen and (max-width: 1130px) {
+    .custom-sidenav {display: none;}
+}
+
+.custom-sidenav {
+  height: 100%;
+  margin-top: -2px;
+}
