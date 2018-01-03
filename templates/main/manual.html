@@ -2,32 +2,32 @@
 {% load static %}
 {% block content %}
 
+  <div class="sidenav">
+      <ul class="nav flex-md-column flex-row justify-content-between">
+        <a href="#Home" class="nav-link active pl-2"><i class="fa fa-home"></i> Main Page</a>
+        <a href="#About" class="nav-link pl-2"><i class="fa fa-users"></i> About us</a>
+        <a href="#Sign" class="nav-link pl-2"><i class="fa fa-pencil-square-o"></i> Sign in/Sign up</a>
+        <a href="#Clients" class="nav-link pl-2"><i class="fa fa-address-book"></i> Clients</a>
+        <a href="#Projects" class="nav-link pl-2"><i class="fa fa-calendar"></i> Projects</a>
+        <a href="#Requirements" class="nav-link pl-2"><i class="fa fa-list"></i> Requirements</a>
+      </ul>
+  </div>
 
 <div class="container">
+  <h1 class="center">User's Manual</h1>
   <div class="col-8 offset-2">
-    <h1 class="">Índice</h1>
-    <ul>
-      <li><a href="#Home"><i class="fa fa-home"></i> Main Page</a></li>
-      <li><a href="#About"><i class="fa fa-users"></i> About us</a></li>
-      <li><a href="#Sign"><i class="fa fa-pencil-square-o"></i> Sign in/Sign up</a></li>
-      <li><a href="#Clients"><i class="fa fa-address-book"></i> Clients</a></li>
-      <li><a href="#Projects"><i class="fa fa-calendar"></i> Projects</a></li>
-      <li><a href="#Requirements"><i class="fa fa-list"></i> Requirements</a></li>
-    </ul>
-    
-
-  </div>
-<div class="col-8 offset-2">
     <p class="text-justify sangria mt-2">En este manual explicaremos los primeros pasos que se deben realizar, así como la forma en la que se deben ejecutar para que el usuario tenga la mejor experiencia usando el Planificator 3000.</p>
   </div>
 
   <div class="col-8 offset-2" id="Home">
+    <span class="anchor" id="sec1"></span>
     <h2 class="center pt-5">Main Page</h2>
     <img src="{% static "images/manual/home.png" %}" class="img-fluid" alt="Planning image">
     <p class="text-justify sangria mt-2">Aquí tenemos la página principal de Planificator 3000. Desde la cual podremos acceder a la informacion del equipo de desarrollo de Planificator 3000 solo debemos ir a la sección <a href="#About">About us.</a> Además pinchando en la opcion del menú Sign in/Sign up podremos entrar a nuestra cuenta o registrarnos (Más informacion en <a href="#Sign">Sign in/Sign up</a>) </p>
   </div>
 
  <div class="col-8 offset-2" id="About">
+  <span class="anchor" id="sec2"></span>
     <h2 class="center pt-5">About us</h2>
     <img src="{% static "images/manual/team.png" %}" class="img-fluid" alt="Planning image">
     <p class="text-justify sangria mt-2">Tenemos aquí toda la información relacionada con el equipo de desarrollo de Planificator 3000.</p>
@@ -93,7 +93,6 @@
 </div>
 
 <button onclick="topFunction()" id="myBtn" class="btn btn-primary" title="Go to top">Top</button>
-
 
 {% endblock content %}
 
