@@ -101,13 +101,27 @@ def assessments(request, requirement_id):
         return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
     return render(request, 'requirements/assessments.html', {'requirement':requirement})
 
-def reuse_requirement(request, project_id):
+def reuse_requirement(request, project_id, page_number):
+    prefix = '/requirements/reuse_requirement/project-'+str(project_id)+'/page-'
     project = Project.objects.get(id=project_id)
-    # Sacar los requisitos generales para la plantilla
+    requirements = GeneralRequirement.objects.filter(owner = request.user.id)
+    paginator = Paginator(requirements, 15)
+    last_page = int(paginator.num_pages)
+    requirements = paginator.page(page_number)
+
+    pages = calculate_pages(int(page_number), last_page)
     if request.method == 'POST':
         effort = request.POST.get('effort')
-        requirement_id = request.POST.get('requirement_id')
-        # Sacar el requisito general de objectos segun el requirement_id
-        # Crear un requisito asociado al proyecto con los datos del general y esfuerzo recibido.
-        messages.success(request, requirement.name +' - requirement was reused in this project.')
-    return render(request, 'requirements/reuse_requirement.html', {'project':project, 'requirements':requirements})
+        gen_requirement = GeneralRequirement.objects.get(id = request.POST.get('requirement_id'))
+        actual_req = Requirement.objects.create(project=project)
+        actual_req.name = gen_requirement.name
+        actual_req.description = gen_requirement.description
+        actual_req.effort = effort
+
+        for stakeholder in project.stakeholders.all():
+            assesment = Assessment(client=stakeholder, requirement=actual_req )
+            assesment.save()
+        # resto de los datos del requisito
+        actual_req.save()
+        messages.success(request, gen_requirement.name + ' - requirement was reused in project:' + project.name)
+    return render(request, 'requirements/reuse_requirement.html', {'range':pages, 'page':page_number, 'last_page':last_page, 'prefix':prefix, 'project':project, 'requirements':requirements})

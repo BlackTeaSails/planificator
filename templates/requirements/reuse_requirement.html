@@ -1,0 +1,110 @@
+{% extends 'principal/shortpage.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container ">
+  <div class="card">
+    <h3 class="card-header ">Reuse a requirement in project: {{ project.name }}</h3>
+    <!-- Zona del mensaje error -->
+    {% if messages %}
+    <div class="col-md-8 offset-md-2 mt-3">
+      {% for message in messages %} {% if message.tags %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible" id="modification-{{ message.tags }}">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> {{ message|safe }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <!-- Fin Zona del mensaje error -->
+    <ul class="list-group">
+      {% for requirement in requirements %}
+            <li class="list-group-item">
+        <div class="row justify-content-between editrow">
+      <div class="col-10 vcenter">
+        <a href="/requirements/edit/general_requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }}
+    </div>
+    <div class="align-self-center">
+      <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal{{ cliente.id }}">
+        <i class="fa fa-wrench" aria-hidden="true"></i>
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal{{ cliente.id }}">
+        <div class="modal-dialog" >
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Add {{ requirement.name }} to project {{ project.name }} with effort:</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form id="clients-form" action="{{ prefix }}{{page}}/" method="post" role="form">
+                  {% csrf_token %}
+                      <div class="form-group weight-form">
+                          <input class="form-group" type="number" name="effort" min="1" max="100" value="{{ requirement.effort }}">
+                      </div>
+                      <div class="form-group">
+                          <input type="hidden" name="requirement_id" value="{{ requirement.id }}">
+                      </div>
+                      <input type="hidden" name="next" value="{{ request.path }}">
+
+                  {% if field.errors %}
+                  <div class="alert alert-dismissible alert-warning" id="registration_error">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                    {{ field.errors }}
+                    {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                    </div>
+                  {% endif %}
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-6 offset-sm-3">
+                        <input type="submit" name="update-submit" id="update-submit" tabindex="4" class="form-control btn btn-success" value="Submit">
+                      </div>
+                    </div>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </li>
+      {% endfor %}
+    </ul>
+    <ul class="pagination justify-content-center">
+      <li class="page-item {% if page|add:" 0 " == 1 %} disabled{% endif %}">
+        <a class="page-link" href="{{ prefix }}{{ page|add:" -1 " }}/">Previous</a>
+      </li>
+      {% for i in range %} {% if i == page|add:"0" %}
+      <li class="page-item active">
+        <span class="page-link">
+        {{ i }}
+        <span class="sr-only">(current)</span>
+        </span>
+      </li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="{{ prefix }}{{ i }}/">{{ i }}</a></li>
+      {% endif %} {% endfor %} {% if page|add:"0" not in range %}
+      <li class="page-item active">
+        <span class="page-link">
+      {{ page }}
+      <span class="sr-only">(current)</span>
+        </span>
+      </li>
+      {% endif %}
+      <li class="page-item {% if page|add:" 0 " == last_page %} disabled {% endif %}">
+        <a class="page-link" href="{{ prefix }}{{ page|add:" 1 " }}/">Next</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+{% endblock content %}
