@@ -102,6 +102,24 @@ def manual_solution(request, project_id):
         messages.error(request, 'We have detected that there is lack of the following data, please, complete those before using this functionallity unless you know what you are doing:', extra_tags='warning')
 
     if request.method == 'POST':
-        # Aqui revisamos el estado de cada checkbox en el formulario por cada requirement que hemos pasado a render
-        pass
-    return render(request, 'projects/manual_solution.html', {'requirements':requirements, 'project':project, 'bad_assesments': zero_assessments, 'bad_influencies': zero_influencies, 'incomplete':incomplete, })
+        for requirement in requirements:
+            requirement.last_released = "requirement-"+str(requirement.id) in request.POST
+            requirement.save()
+
+    solution = requirements.filter(last_released=True)
+    totalEffort = 0
+    totalBenefit = 0
+    for sol in solution:
+        totalEffort = totalEffort + sol.effort
+        totalBenefit = totalBenefit + sol.benefit
+
+
+    return render(request, 'projects/manual_solution.html',
+                            {'requirements':requirements,
+                            'project':project,
+                            'bad_assesments': zero_assessments,
+                            'bad_influencies': zero_influencies,
+                            'incomplete':incomplete,
+                            'totalEffort':totalEffort,
+                            'totalBenefit':totalBenefit,
+                            })
