@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^(?:user-(?P<user_id>\d+)/(?:page-(?P<page_number>\d+))/)$', views.users_projects, name='users_projects'),
     url(r'^remove/(?:project-(?P<project_id>\d+)/)$', views.remove_project, name='remove_project'),
     url(r'^release/(?:project-(?P<project_id>\d+)/)$', views.next_release, name='next_release'),
+    url(r'^manual_solution/(?:project-(?P<project_id>\d+)/)$', views.manual_solution, name='manual_solution'),
 ]

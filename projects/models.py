@@ -49,7 +49,9 @@ class Project(models.Model):
             if not assesment.value:
                 bad_assesments.append(assesment)
 
-        return True, bad_influencies, bad_assesments
+        result = not (bad_influencies == [] and bad_assesments == [])
+
+        return result, bad_influencies, bad_assesments
 
 class Power(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)

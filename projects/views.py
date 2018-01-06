@@ -84,13 +84,24 @@ def next_release(request, project_id):
 
     incomplete, zero_influencies, zero_assessments = project.checkFillables()
     if request.method != 'POST' and incomplete:
-        messages.error(request, 'We have detected thet there is lack of the following data, please, complete those before using this functionallity unless you know what you are doing:', extra_tags='warning')
-
+        messages.error(request, 'We have detected that there is lack of the following data, please, complete those before using this functionallity unless you know what you are doing:', extra_tags='warning')
     if request.method == 'POST':
         capacity = request.POST.get("capacity")
         requirements = project.getNextReleaseFeatures(capacity)
         if not requirements:
             messages.error(request, 'We wasn\'t able to add any single requirement to the solution because of the lack of capacity:', extra_tags='warning')
-
-
     return render(request, 'projects/next_release.html', {'project': project, 'requirements': requirements, 'bad_assesments': zero_assessments, 'bad_influencies': zero_influencies, 'incomplete':incomplete, })
+
+def manual_solution(request, project_id):
+    project = Project.objects.all().get(id=project_id)
+    requirements = Requirement.objects.all().filter(project=project)
+
+    incomplete, zero_influencies, zero_assessments = project.checkFillables()
+    incomplete, zero_influencies, zero_assessments = project.checkFillables()
+    if request.method != 'POST' and incomplete:
+        messages.error(request, 'We have detected that there is lack of the following data, please, complete those before using this functionallity unless you know what you are doing:', extra_tags='warning')
+
+    if request.method == 'POST':
+        # Aqui revisamos el estado de cada checkbox en el formulario por cada requirement que hemos pasado a render
+        pass
+    return render(request, 'projects/manual_solution.html', {'requirements':requirements, 'project':project, 'bad_assesments': zero_assessments, 'bad_influencies': zero_influencies, 'incomplete':incomplete, })
