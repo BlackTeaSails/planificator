@@ -14,7 +14,25 @@
       {% for message in messages %} {% if message.tags %}
       <div class="alert alert-{{ message.tags }} alert-dismissible" id="modification-{{ message.tags }}">
         {% endif %}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> {{ message|safe }}</div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button> {{ message|safe }}
+
+        <!-- Listamos los clientes cuyas influencias no han sido establecidas -->
+        {% if bad_influencies %}
+          <h5>The following clients's influence wasn't set:</h5>
+          {% for bad_influence in bad_influencies %}
+            <p>{{ bad_influence }}</p>
+          {% endfor %}
+        {% endif %}
+        <!-- Listamos las valoraciones que no han sido establecidas -->
+        {% if bad_assesments %}
+          <h5>The following assessments wasn't set:</h5>
+          {% for bad_assesment in bad_assesments %}
+            <p>{{ bad_assesment }}</p>
+          {% endfor %}
+        {% endif %}
+
+      </div>
       {% endfor %}
     </div>
     {% endif %}

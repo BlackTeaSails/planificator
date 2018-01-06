@@ -75,14 +75,22 @@ def users_projects(request, user_id, page_number):
 def remove_project(request, project_id):
     project = Project.objects.all().get(id=project_id)
     project.delete()
-    messages.error(request, 'Projects: '+ project.name +' was deleted.', extra_tags='success')
+    messages.success(request, 'Projects: '+ project.name +' was deleted.')
     return redirect("/projects/page-1/")
 
 def next_release(request, project_id):
     project = Project.objects.all().get(id=project_id)
     requirements = Requirement.objects.all().filter(project=project).filter(last_released=True)
+
+    incomplete, zero_influencies, zero_assessments = project.checkFillables()
+    if request.method != 'POST' and incomplete:
+        messages.error(request, 'We have detected thet there is lack of the following data, please, complete those before using this functionallity unless you know what you are doing:', extra_tags='warning')
+
     if request.method == 'POST':
         capacity = request.POST.get("capacity")
         requirements = project.getNextReleaseFeatures(capacity)
+        if not requirements:
+            messages.error(request, 'We wasn\'t able to add any single requirement to the solution because of the lack of capacity:', extra_tags='warning')
 
-    return render(request, 'projects/next_release.html', {'project': project, 'requirements': requirements})
+
+    return render(request, 'projects/next_release.html', {'project': project, 'requirements': requirements, 'bad_assesments': zero_assessments, 'bad_influencies': zero_influencies, 'incomplete':incomplete, })

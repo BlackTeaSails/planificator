@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 import operator
 
-from requirements.models import Requirement
+from requirements.models import Requirement, Assessment
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
@@ -35,6 +35,21 @@ class Project(models.Model):
             req.save()
 
         return Requirement.objects.filter(id__in=requirementsRelease)
+
+    def checkFillables(self):
+        bad_influencies = []
+        influencies = Power.objects.all().filter(project=self.id)
+        for inf in influencies:
+            if not inf.weight:
+                bad_influencies.append(inf.client.name)
+
+        bad_assesments = []
+        assesments = Assessment.objects.all().filter(requirement__in=Requirement.objects.filter(project=self))
+        for assesment in assesments:
+            if not assesment.value:
+                bad_assesments.append(assesment)
+
+        return True, bad_influencies, bad_assesments
 
 class Power(models.Model):
     client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
