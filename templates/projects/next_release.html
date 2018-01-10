@@ -1,5 +1,4 @@
-{% extends 'projects/modals_base.html' %}
-{% load getweight %}
+{% extends 'principal/base.html' %}
 
 {% load static %}
 
@@ -14,7 +13,25 @@
       {% for message in messages %} {% if message.tags %}
       <div class="alert alert-{{ message.tags }} alert-dismissible" id="modification-{{ message.tags }}">
         {% endif %}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> {{ message|safe }}</div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button> {{ message|safe }}
+
+        <!-- Listamos los clientes cuyas influencias no han sido establecidas -->
+        {% if bad_influencies %}
+          <h5>The following clients's influence wasn't set:</h5>
+          {% for bad_influence in bad_influencies %}
+            <p>{{ bad_influence }}</p>
+          {% endfor %}
+        {% endif %}
+        <!-- Listamos las valoraciones que no han sido establecidas -->
+        {% if bad_assesments %}
+          <h5>The following assessments wasn't set:</h5>
+          {% for bad_assesment in bad_assesments %}
+            <p>{{ bad_assesment }}</p>
+          {% endfor %}
+        {% endif %}
+
+      </div>
       {% endfor %}
     </div>
     {% endif %}
@@ -22,20 +39,21 @@
     <ul class="list-group">
       <li class="list-group-item p-0 border-0">
         <div class="card border-0 w-100 align-self-center">
-          <h5 class="card-header "><span class="align-self-center">Requisitos:
+          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ totalBenefit }} units of benefit.
           </span></h5>
           {% for requirement in requirements %}
-            <span class=" ml-3 m-2"><a href="/projects/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} with effort: {{ requirement.effort }} and total a benefit of {{ requirement.benefit }}
+            <span class=" ml-3 m-2"><a href="/requirements/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} with effort: {{ requirement.effort }} and total a benefit of {{ requirement.benefit }}
 
             </span>
           {% endfor %}
         </div>
       </li>
       <li class="list-group-item p-0 border-0">
+      <div class="col-sm-6 offset-sm-3">
       <form id="clients-form" action="{{ prefix }}" method="post" role="form">
           {% csrf_token %}
               <div class="form-group weight-form">
-                  <input class="form-group" type="number" name="capacity" min="1" max="100" value="{{ weight }}">
+                  <input class="form-group" type="number" name="capacity" min="1" max="100" value="0">
               </div>
               <input type="hidden" name="next" value="{{ request.path }}">
 
@@ -56,7 +74,15 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-sm-6 offset-sm-3">
+                <a href="javascript:history.back()" class="form-control btn btn-danger" role="button" aria-pressed="true">Cancel</a>
+              </div>
+            </div>
+          </div>
       </form>
+    </div>
       </li>
     </ul>
 

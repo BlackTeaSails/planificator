@@ -5,3 +5,6 @@ def index(request):
 
 def team_view(request):
     return render(request, 'main/team.html', {})
+
+def manual_view(request):
+    return render(request, 'main/manual.html', {})

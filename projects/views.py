@@ -5,8 +5,9 @@ from django.contrib import messages # error and success messages
 from django import forms
 
 from clients.models import Client
-from .models import Project, Requirement, GeneralRequirement, Power, Assessment
-from .forms import NewProjectForm, NewRequirementForm, EditProjectForm
+from requirements.models import Requirement
+from .models import Project, Power
+from .forms import NewProjectForm, EditProjectForm
 
 def add_project(request):
     clients = Client.objects.filter(owner = request.user.id)
@@ -27,7 +28,6 @@ def add_project(request):
             return redirect("/projects/page-1/")
     return render(request, 'projects/new_project.html', {'form': form,})
 
-# implementar edición del nombre y descripción de un proyecto
 def edit_project(request, project_id):
     project = Project.objects.all().get(id=project_id)
     form = EditProjectForm(instance=project)
@@ -75,72 +75,51 @@ def users_projects(request, user_id, page_number):
 def remove_project(request, project_id):
     project = Project.objects.all().get(id=project_id)
     project.delete()
-    messages.error(request, 'Projects: '+ project.name +' was deleted.', extra_tags='success')
+    messages.success(request, 'Projects: '+ project.name +' was deleted.')
     return redirect("/projects/page-1/")
-
-# crea dos requisitos, el general y el asociado a ese proyectos
-def new_requirement(request, project_id):
-    form = NewRequirementForm()
-    if request.method == 'POST':
-        form = NewRequirementForm(request.POST)
-        if form.is_valid():
-            requirement = form.save(commit=False)
-            project = Project.objects.all().get(id=project_id)
-            requirement.project = project
-            requirement.save()
-            # FALTA crear un GeneralRequirement para reutilizarlo
-            for stakeholder in project.stakeholders.all():
-                assesment = Assessment(client=stakeholder, requirement=requirement )
-                assesment.save()
-            requirement.save()
-            messages.success(request, 'Requirement: '+ requirement.name +' was created.')
-            return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
-    return render(request, 'requirements/new_requirement.html', {'form':form})
-
-def edit_requirement(request, requirement_id):
-    requirement = Requirement.objects.get(id=requirement_id)
-    form = NewRequirementForm(instance=requirement)
-    if request.method == 'POST':
-        form = NewRequirementForm(request.POST, instance=requirement)
-        if form.is_valid():
-            requirement = form.save(commit=False)
-            requirement.save()
-            messages.success(request, 'Requirement: '+ requirement.name +' was modified.')
-            return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
-    return render(request, 'requirements/new_requirement.html', {'form':form})
-
-def toggle_requirement(request, requirement_id):
-    requirement = Requirement.objects.all().get(id=requirement_id)
-    requirement.state = not requirement.state
-    requirement.save()
-    if requirement.state:
-        messages.success(request, 'Requirement: '+ requirement.name +' marked as done.')
-    else:
-        messages.error(request, 'Requirement: '+ requirement.name +' unmarked as done.', extra_tags='warning')
-    return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
-
-def remove_requirement(request, requirement_id):
-    requirement = Requirement.objects.all().get(id=requirement_id)
-    requirement.delete()
-    messages.error(request, 'Requirement: '+ requirement.name +' was deleted from the project.', extra_tags='success')
-    return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
-
-def assessments(request, requirement_id):
-    requirement = Requirement.objects.all().get(id=requirement_id)
-    if request.method == 'POST':
-        for client in requirement.project.stakeholders.all():
-            assessment = Assessment.objects.all().get(client=client.id, requirement=requirement_id)
-            assessment.value = request.POST.get("value-client-"+str(client.id))
-            assessment.save()
-        messages.success(request, 'Clients\' assessments:  were saved')
-        return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
-    return render(request, 'requirements/assessments.html', {'requirement':requirement})
 
 def next_release(request, project_id):
     project = Project.objects.all().get(id=project_id)
     requirements = Requirement.objects.all().filter(project=project).filter(last_released=True)
+
+    incomplete, zero_influencies, zero_assessments = project.checkFillables()
+    if request.method != 'POST' and incomplete:
+        messages.error(request, 'We have detected that there is lack of the following data, please, complete those before using this functionallity unless you know what you are doing:', extra_tags='warning')
     if request.method == 'POST':
         capacity = request.POST.get("capacity")
         requirements = project.getNextReleaseFeatures(capacity)
+        if not requirements:
+            messages.error(request, 'We wasn\'t able to add any single requirement to the solution because of the lack of capacity:', extra_tags='warning')
+    return render(request, 'projects/next_release.html', {'project': project, 'requirements': requirements, 'bad_assesments': zero_assessments, 'bad_influencies': zero_influencies, 'incomplete':incomplete, })
 
-    return render(request, 'projects/next_release.html', {'project': project, 'requirements': requirements})
+def manual_solution(request, project_id):
+    project = Project.objects.all().get(id=project_id)
+    requirements = Requirement.objects.all().filter(project=project)
+
+    incomplete, zero_influencies, zero_assessments = project.checkFillables()
+    incomplete, zero_influencies, zero_assessments = project.checkFillables()
+    if request.method != 'POST' and incomplete:
+        messages.error(request, 'We have detected that there is lack of the following data, please, complete those before using this functionallity unless you know what you are doing:', extra_tags='warning')
+
+    if request.method == 'POST':
+        for requirement in requirements:
+            requirement.last_released = "requirement-"+str(requirement.id) in request.POST
+            requirement.save()
+
+    solution = requirements.filter(last_released=True)
+    totalEffort = 0
+    totalBenefit = 0
+    for sol in solution:
+        totalEffort = totalEffort + sol.effort
+        totalBenefit = totalBenefit + sol.benefit
+
+
+    return render(request, 'projects/manual_solution.html',
+                            {'requirements':requirements,
+                            'project':project,
+                            'bad_assesments': zero_assessments,
+                            'bad_influencies': zero_influencies,
+                            'incomplete':incomplete,
+                            'totalEffort':totalEffort,
+                            'totalBenefit':totalBenefit,
+                            })

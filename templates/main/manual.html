@@ -1,0 +1,104 @@
+{% extends 'principal/shortpage.html' %}
+{% load static %}
+{% block content %}
+
+  <div class="sidenav custom-sidenav">
+      <ul class="nav flex-md-column flex-row justify-content-between">
+        <a href="#Home" class="nav-link pl-2"><i class="fa fa-home"></i> Main Page</a>
+        <a href="#About" class="nav-link pl-2"><i class="fa fa-users"></i> About us</a>
+        <a href="#Sign" class="nav-link pl-2"><i class="fa fa-pencil-square-o"></i> Sign in/Sign up</a>
+        <a href="#Clients" class="nav-link pl-2"><i class="fa fa-address-book"></i> Clients</a>
+        <a href="#Projects" class="nav-link pl-2"><i class="fa fa-calendar"></i> Projects</a>
+        <a href="#Requirements" class="nav-link pl-2"><i class="fa fa-list"></i> Requirements</a>
+      </ul>
+  </div>
+
+<div class="container">
+  <h1 class="center">User's Manual</h1>
+  <div class="col-8 offset-2">
+    <p class="text-justify sangria mt-2">En este manual explicaremos los primeros pasos que se deben realizar, así como la forma en la que se deben ejecutar para que el usuario tenga la mejor experiencia usando el Planificator 3000.</p>
+  </div>
+
+  <div class="col-8 offset-2" id="Home">
+    <span class="anchor" id="sec1"></span>
+    <h2 class="center pt-5">Main Page</h2>
+    <img src="{% static "images/manual/home.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Aquí tenemos la página principal de Planificator 3000. Desde la cual podremos acceder a la informacion del equipo de desarrollo de Planificator 3000 solo debemos ir a la sección <a href="#About">About us.</a> Además pinchando en la opcion del menú Sign in/Sign up podremos entrar a nuestra cuenta o registrarnos (Más informacion en <a href="#Sign">Sign in/Sign up</a>) </p>
+  </div>
+
+ <div class="col-8 offset-2" id="About">
+  <span class="anchor" id="sec2"></span>
+    <h2 class="center pt-5">About us</h2>
+    <img src="{% static "images/manual/team.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Tenemos aquí toda la información relacionada con el equipo de desarrollo de Planificator 3000.</p>
+  </div>
+
+  <div class="col-8 offset-2" id="Sign">
+    <h2 class="center pt-5">Sign in/Sign up</h2>
+    <p class="text-justify sangria mt-2">Podremos ver el login para entrar en nuestra cuenta de Planificator 3000, debemos de introduccir nuestro username y contraseña; en caso de olvidarnos de la contrañesa sera posible recuperarla, ademas de mantener la sesion abierta recordandonos</p>
+    <img src="{% static "images/manual/entrar.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Si contamos con cuenta y entramos a ella lo primero que veremos es la información de nuestro perfil, donde podremos cambiar nuestros datos y nuestra contraseña.</p>
+    <img src="{% static "images/manual/perfil.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">En caso de querer registrarnos por que no contamos con una cuenta en Planificator 3000 optaremos por la opción Sign up. Un formulario que nos pedira nuestros datos, username, nombre, apellidos, email y contraseña y será necesario rellenarlos todos, la contraseña debe tener un mínimo de 8 caracteres alfanumericos.</p>
+    <img src="{% static "images/manual/registro.png" %}" class="img-fluid" alt="Planning image">
+  </div>
+
+   <div class="col-8 offset-2" id="Clients">
+    <h2 class="center pt-5">Clients</h2>
+    <p class="text-justify sangria mt-2">El primer paso sería crear los clientes ya que sin estos no podremos crear los <a href="#Projects">proyectos</a> asociados a ellos. Para ello en la barra de navegacion nos dirigimos a la opción de Clients desde ahí podremos visualizar los clientes ya creados.</p>
+    <img src="{% static "images/manual/clientes_antes.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Además podremos añadir nuevos clientes presionando el boton azul que se encuentra a la derecha. Para crear clientes tendremos que rellenar un formulario con su nombre y detalles del cliente.</p>
+    <img src="{% static "images/manual/cliente_nuevo.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Una vez rellenado el fromulario y guardado el nuevo cliente nos mandara un mensaje de que el cliente se ha creado correctamente y nos saldrá en la lista de clientes.</p>
+    <img src="{% static "images/manual/clientes_despues.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Si presionamos sobre el boton naranja con la llave inglesa que se encuentra a la derecha de cada cliente podremos modificar sus datos.</p>
+  </div>
+
+   <div class="col-8 offset-2" id="Projects">
+    <h2 class="center pt-5">Projects</h2>
+    <p class="text-justify sangria mt-2">Este es un apartado muy importante, para poder administrar los proyectos desde la barra de navegacion nos dirigimos a la opción de Projects desde ahí podremos visualizar los proyectos ya creados</p>
+    <img src="{% static "images/manual/proyecto_antes.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Además podremos añadir nuevos proyectos presionando el boton azul que se encuentra a la derecha. Para crear proyectos tendremos que rellenar un formulario con nombre del proyecto, descripción y el/los cliente/s asociado/s a este proyecto nuevo.</p>
+    <img src="{% static "images/manual/nuevo_proyecto.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Una vez rellenado el fromulario y guardado el nuevo proyecto nos mandara un mensaje de que el proyecto se ha creado correctamente y nos saldrá en la lista de proyectos.</p>
+    <img src="{% static "images/manual/proyecto_despues.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Si presionamos sobre el boton naranja con la llave inglesa que se encuentra a la derecha de cada proyecto podremos modificar sus datos.</p>
+
+    <p class="text-justify sangria mt-2">Si presionamos sobre el proyecto accederemos a su información, es decir, a su descripción, el/los cliente/s asociado/s y sus requisitos.</p>
+    <img src="{% static "images/manual/detalles_proyecto.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Si presionamos sobre unos de los clientes, podemos modificar su incluencia en el proyecto, por ejemplo vamos a cambiar la influencia del cliente llamado Isabel María, dandole un valor de 4.</p>
+    <img src="{% static "images/manual/cambio_influencia.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Una vez guardado los cambios tenemos la influencia de nuestros clientes sobre el proyecto.</p>
+    <img src="{% static "images/manual/infuencia_cambiada.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Desde aquí podemos crear nuevos requisistos presionando el botón azul que se encuentra más a la derecha, deberemos de añadri los datos que nos pide, nombre, descripción y esfuerzo.</p>
+    <img src="{% static "images/manual/nuevo_requisito.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Una vez creado el nuevo requisito nos notificara que se ha realiza de forma correcta Además podemos marcar un requisito como hecho, presionando el checkbox verde.</p>
+    <img id="mochila" src="{% static "images/manual/requisitos_valoraciones.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Una vez creado los requisitos, podemos modificar sus datos presionando sobre el requisito. Además podemos eliminar los requisitos.</p>
+    <p class="text-justify sangria mt-2">Un apartado muy importante es que podemos darle una valoración al requisito por cliente/s asociado/s al proyecto. Por ejemplo, vamos a darle una valoración al requisito "Introducción de datos" del proyecto 'Saifa olivos v.1.0' en este caso cada cliente tendrá una valoración del requisito; como podemos observar también podemos ver el peso del cliente en el proyecto.</p>
+    <img src="{% static "images/manual/valoracion_requisito.png" %}" class="img-fluid" alt="Planning image">
+
+    <p class="text-justify sangria mt-2">Si le presionamos sobre el <a href="#mochila">botón azul con el icono de la calculadora</a> podemos calcular los requistos que entran especificando el esfuerzo.</p>
+    <img src="{% static "images/manual/mochila.png" %}" class="img-fluid" alt="Planning image">
+  </div>
+
+
+   <div class="col-8 offset-2" id="Requirements">
+    <h2 class="center pt-5">Requirements</h2>
+    <p class="text-justify sangria mt-2">Aquí podemos visualizar los requisitos generales, es decir, todos los requisistos creados.</p>
+    <img src="{% static "images/manual/requisitos_generales.png" %}" class="img-fluid" alt="Planning image">
+    <p class="text-justify sangria mt-2">Podemos eliminar estos requisitos o modificar sus expecificaciones, tales como el nombre, descripción y peso, esto sera posible presionando sobre el botón naranja.</p>
+  </div>
+
+</div>
+
+<button onclick="topFunction()" id="myBtn" class="btn btn-primary" title="Go to top">Top</button>
+
+{% endblock content %}
+
+
+{% block js %}
+
+    <script src="{% static "js/backtotop.js" %}"></script>
+
+{% endblock js %}

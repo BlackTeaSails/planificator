@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^auth/', include('auth.urls')),
     url(r'^clients/', include('clients.urls')),
     url(r'^projects/', include('projects.urls')),
+    url(r'^requirements/', include('requirements.urls')),
     url(r'^', include('main.urls')),
 ]

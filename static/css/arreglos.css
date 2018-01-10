@@ -98,7 +98,7 @@ footer, .page-wrap:after {
   color: rgba(230, 230, 230, 1.0)
 }
 
-.img-fluid {
+.custom-img-fluid {
   max-width: 30%;
   margin: auto;
   display: block;
@@ -116,4 +116,61 @@ ul.pagination {
 .modal-dialog {
     max-width: 500px;
     margin: 200px auto;
+}
+
+.sangria {
+    text-indent: 50px;
+}
+
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 85px;
+  right: 30px;
+  z-index: 99;
+}
+
+
+/*sidenav of manual*/
+.sidenav {
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 55px;
+    left: 0px;
+    background: #373a3c;
+    overflow-x: hidden;
+    padding: 8px 0;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #dddddd;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #fff;
+}
+
+.main {
+    margin-left: 140px; /* Same width as the sidebar + left position in px */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+@media screen and (max-width: 1130px) {
+    .custom-sidenav {display: none;}
+}
+
+.custom-sidenav {
+  height: 100%;
+  margin-top: -2px;
 }
