@@ -42,7 +42,7 @@ def new_requirement(request, project_id):
             requirement.save()
             messages.success(request, 'Requirement: '+ requirement.name +' was created.')
             return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
-    return render(request, 'requirements/new_requirement.html', {'form':form})
+    return render(request, 'requirements/new_requirement.html', {'form':form, })
 
 def edit_requirement(request, requirement_id):
     requirement = Requirement.objects.get(id=requirement_id)
@@ -54,7 +54,7 @@ def edit_requirement(request, requirement_id):
             requirement.save()
             messages.success(request, 'Requirement: '+ requirement.name +' was modified.')
             return redirect('/projects/detail/project-'+ str(requirement.project.id)+'/')
-    return render(request, 'requirements/new_requirement.html', {'form':form})
+    return render(request, 'requirements/new_requirement.html', {'form':form, 'requirement':requirement, })
 
 def toggle_requirement(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)
@@ -88,7 +88,7 @@ def edit_general_requirement(request, requirement_id):
             requirement.save()
             messages.success(request, 'General Requirement: '+ requirement.name +' was modified.')
             return redirect('/requirements/page-1/')
-    return render(request, 'requirements/new_requirement.html', {'form':form})
+    return render(request, 'requirements/new_requirement.html', {'form':form, 'requirement':requirement})
 
 def assessments(request, requirement_id):
     requirement = Requirement.objects.all().get(id=requirement_id)

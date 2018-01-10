@@ -6,7 +6,7 @@
 <div class="container ">
   <div class="card">
     <h3 class="card-header ">Reuse a requirement in project: {{ project.name }}
-     <span class="pull-right"><a href="javascript:history.back()" class="form-control btn btn-primary" role="button" aria-pressed="true">Back</a></span> 
+     <span class="pull-right"><a href="javascript:history.back()" class="form-control btn btn-primary" role="button" aria-pressed="true">Back</a></span>
     </h3>
     <!-- Zona del mensaje error -->
     {% if messages %}
@@ -21,20 +21,20 @@
     <!-- Fin Zona del mensaje error -->
     <ul class="list-group">
       {% for requirement in requirements %}
-            <li class="list-group-item">
-        <div class="row justify-content-between editrow">
-      <div class="col-10 vcenter">
+    <li class="list-group-item">
+    <div class="row justify-content-between editrow">
+    <div class="col-10 vcenter">
         <a href="/requirements/edit/general_requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }}
     </div>
 
 
     <div class="align-self-center col-2 vcenter">
-      <button type="button" class="btn btn-primary pull-right ml-3" data-toggle="modal" data-target="#myModal{{ cliente.id }}">
+      <button type="button" class="btn btn-primary pull-right ml-3" data-toggle="modal" data-target="#myModal{{ requirement.id }}">
         <i class="fa fa-plus-square" aria-hidden="true"></i>
         </button>
 
         <!-- The Modal -->
-        <div class="modal fade" id="myModal{{ cliente.id }}">
+        <div class="modal fade" id="myModal{{ requirement.id }}">
         <div class="modal-dialog" >
           <div class="modal-content">
 
@@ -79,7 +79,7 @@
         </div>
       </div>
 
-      <a href="/requirements/reuse_edit_requirement/project-{{ project.id }}/page-1/" class="btn btn-primary pull-right mr-3 disabled"><i class="fa fa-gear" aria-hidden="true"></i></a>  
+      <a href="/requirements/reuse_edit_requirement/project-{{ project.id }}/page-1/" class="btn btn-primary pull-right mr-3 disabled"><i class="fa fa-gear" aria-hidden="true"></i></a>
     </div>
   </div>
   </li>
