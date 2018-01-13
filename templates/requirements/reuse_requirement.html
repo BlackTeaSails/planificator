@@ -5,7 +5,9 @@
 
 <div class="container ">
   <div class="card">
-    <h3 class="card-header ">Reuse a requirement in project: {{ project.name }}</h3>
+    <h3 class="card-header ">Reuse a requirement in project: {{ project.name }}
+     <span class="pull-right"><a href="javascript:history.back()" class="form-control btn btn-primary" role="button" aria-pressed="true">Back</a></span> 
+    </h3>
     <!-- Zona del mensaje error -->
     {% if messages %}
     <div class="col-md-8 offset-md-2 mt-3">
