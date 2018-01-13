@@ -13,7 +13,11 @@
           <div class="card-header">
             <div class="row">
               <div class="col-sm-12">
-                <h2 id="client-form"> New requirement </h2>
+                {% if requirement %}
+                  <h2 id="client-form"> Edit {{ requirement.name }} </h2>
+                {% else %}
+                  <h2 id="client-form"> New requirement </h2>
+                {% endif %}
               </div>
             </div>
             <hr>
