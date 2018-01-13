@@ -22,17 +22,25 @@ class Project(models.Model):
             totalSatifaction = totalSatifaction + r.satifaction
         return totalSatifaction
 
-    # @property
-    # def productivity(self):
-    #     if self.effort:
-    #         return (self.satifaction//self.effort)
-    #     return 0
-    #
-    # @property
-    # def contribution(self):
-    #     if self.effort:
-    #         return (self.satifaction//self.effort)
-    #     return 0
+    @property
+    def productivity(self):
+        totalEffort = 0
+        requirements = Requirement.objects.all().filter(project=self).filter(last_released=True)
+        for r in requirements:
+            totalEffort = totalEffort + r.effort
+        return self.satisfaction/totalEffort
+
+    @property
+    def contribution(self):
+        contributions = {}
+        requirements = Requirement.objects.all().filter(project=self).filter(last_released=True)
+        for r in requirements:
+            for k, v in r.contribution.items():
+                if k in contributions:
+                    contributions[k] = contributions[k] + v
+                else:
+                    contributions[k] = v
+        return contributions
 
     def getNextReleaseFeatures(self, capacity):
         requirementsObjects = Requirement.objects.all().filter(project=self).filter(state=False)

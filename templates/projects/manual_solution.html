@@ -39,7 +39,7 @@
     <ul class="list-group">
       <li class="list-group-item p-0 border-0">
         <div class="card border-0 w-100 align-self-center">
-          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ totalProductivity }} units of productivity and {{ project.satisfaction }} satisfaction
+          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ project.productivity }} units of productivity and {{ project.satisfaction }} satisfaction and the next contribution: {{ project.contribution }}
           </span></h5>
         <form id="clients-form" action="{{ prefix }}" method="post" role="form">
           {% csrf_token %}
