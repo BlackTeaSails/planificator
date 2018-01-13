@@ -39,10 +39,10 @@
     <ul class="list-group">
       <li class="list-group-item p-0 border-0">
         <div class="card border-0 w-100 align-self-center">
-          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ totalBenefit }} units of benefit.
+          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ totalProductivity }} units of productivity.
           </span></h5>
           {% for requirement in requirements %}
-            <span class=" ml-3 m-2"><a href="/requirements/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} with effort: {{ requirement.effort }} and total a benefit of {{ requirement.benefit }}
+            <span class=" ml-3 m-2"><a href="/requirements/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} with effort: {{ requirement.effort }} and total a productivity of {{ requirement.productivity }}
 
             </span>
           {% endfor %}

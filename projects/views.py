@@ -108,10 +108,10 @@ def manual_solution(request, project_id):
 
     solution = requirements.filter(last_released=True)
     totalEffort = 0
-    totalBenefit = 0
+    totalProductivity = 0
     for sol in solution:
         totalEffort = totalEffort + sol.effort
-        totalBenefit = totalBenefit + sol.benefit
+        totalProductivity = totalProductivity + sol.productivity
 
 
     return render(request, 'projects/manual_solution.html',
@@ -121,5 +121,5 @@ def manual_solution(request, project_id):
                             'bad_influencies': zero_influencies,
                             'incomplete':incomplete,
                             'totalEffort':totalEffort,
-                            'totalBenefit':totalBenefit,
+                            'totalProductivity':totalProductivity,
                             })
