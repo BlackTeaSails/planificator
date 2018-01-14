@@ -39,7 +39,7 @@
     <ul class="list-group">
       <li class="list-group-item p-0 border-0">
         <div class="card border-0 w-100 align-self-center">
-          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ totalBenefit }} units of benefit.
+          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ project.productivity }} units of productivity and {{ project.satisfaction }} satisfaction and the next contribution: {{ project.contribution }}
           </span></h5>
         <form id="clients-form" action="{{ prefix }}" method="post" role="form">
           {% csrf_token %}
@@ -48,7 +48,7 @@
           <div class="form-check ml-3 m-2">
             <label class="form-check-label">
               <input class="form-check-input" type="checkbox" name="requirement-{{ requirement.id }}" value="{{ requirement.id }}" {% if requirement.state %}disabled{% endif %} {% if requirement.last_released %}checked{% endif %}>
-              <a href="/requirements/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} with effort: {{ requirement.effort }} and total a benefit of {{ requirement.benefit }}
+              <a href="/requirements/edit/requirement-{{ requirement.id }}/">{{ requirement.name }}</a>- {{ requirement.description }} with effort: {{ requirement.effort }} and total a productivity of {{ requirement.productivity }}
             </label>
           </div>
           {% endfor %}
