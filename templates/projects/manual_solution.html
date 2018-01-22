@@ -81,6 +81,40 @@
         </div>
       </li>
     </ul>
+
+    <div>
+      <canvas id="myChart" style="position: relative; height:40vh; width:80vw"></canvas>
+    </div>
+
+    <script>
+    let myChart = document.getElementById('myChart').getContext('2d');
+    
+    let massPopChart = new Chart(myChart, {
+        type:'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data:{
+          labels:['Isabel', 'Fernando'],
+          datasets:[{
+            data:[
+              1.67,
+              1.32,
+            ],
+            backgroundColor:[
+              'rgba(255, 99, 132, 0.6)',
+              'rgba(54, 162, 235, 0.6)'
+            ],
+          }]
+        },
+
+        options: {
+          legend: { display: true },
+          title: {
+            display: true,
+            text:'Contribution of clinets'
+          }
+        }
+      });
+    </script>
+
   </div>
 </div>
 
