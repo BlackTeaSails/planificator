@@ -90,7 +90,21 @@ def next_release(request, project_id):
         requirements = project.getNextReleaseFeatures(capacity)
         if not requirements:
             messages.error(request, 'We wasn\'t able to add any single requirement to the solution because of the lack of capacity:', extra_tags='warning')
-    return render(request, 'projects/next_release.html', {'project': project, 'requirements': requirements, 'bad_assesments': zero_assessments, 'bad_influencies': zero_influencies, 'incomplete':incomplete, })
+   
+    totalEffort = 0
+    totalProductivity = 0
+    for sol in requirements:
+        totalEffort = totalEffort + sol.effort
+        totalProductivity = totalProductivity + sol.productivity
+    return render(request, 'projects/next_release.html', 
+                            {'project': project,
+                            'requirements': requirements, 
+                            'bad_assesments': zero_assessments, 
+                            'bad_influencies': zero_influencies, 
+                            'incomplete':incomplete,
+                            'totalEffort':totalEffort,
+                            'totalProductivity':totalProductivity, 
+                            })
 
 def manual_solution(request, project_id):
     project = Project.objects.all().get(id=project_id)
@@ -113,7 +127,6 @@ def manual_solution(request, project_id):
         totalEffort = totalEffort + sol.effort
         totalProductivity = totalProductivity + sol.productivity
 
-
     return render(request, 'projects/manual_solution.html',
                             {'requirements':requirements,
                             'project':project,
@@ -122,4 +135,5 @@ def manual_solution(request, project_id):
                             'incomplete':incomplete,
                             'totalEffort':totalEffort,
                             'totalProductivity':totalProductivity,
+                            'contributions': project.contribution.items(),
                             })

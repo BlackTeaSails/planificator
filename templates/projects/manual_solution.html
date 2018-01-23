@@ -1,6 +1,7 @@
 {% extends 'principal/base.html' %}
 
 {% load static %}
+{% load l10n %}
 
 {% block content %}
 
@@ -39,7 +40,7 @@
     <ul class="list-group">
       <li class="list-group-item p-0 border-0">
         <div class="card border-0 w-100 align-self-center">
-          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ project.productivity }} units of productivity and {{ project.satisfaction }} satisfaction and the next contribution: {{ project.contribution }}
+          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ project.productivity|floatformat:2 }} units of productivity and {{ project.satisfaction }} satisfaction.
           </span></h5>
         <form id="clients-form" action="{{ prefix }}" method="post" role="form">
           {% csrf_token %}
@@ -81,6 +82,51 @@
         </div>
       </li>
     </ul>
+
+    <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+
+    <script>
+      window.onload = function () {
+
+      var chart = new CanvasJS.Chart("chartContainer", {
+      	theme: "light2",
+      	exportFileName: "Contribution",
+      	exportEnabled: true,
+      	animationEnabled: true,
+      	title:{
+      		text: "Clients' contribution"
+      	},
+      	legend:{
+      		cursor: "pointer",
+      		itemclick: explodePie
+      	},
+      	data: [{
+      		type: "doughnut",
+      		innerRadius: 90,
+      		showInLegend: false,
+      		toolTipContent: "<b>{name}</b>: {y}",
+      		indexLabel: "{name} - {y}",
+      		dataPoints: [
+
+          {% for k, v in project.contribution.items %}
+            {y: {{ v|safe }}, name: "{{ k }}" },
+          {% endfor %}
+      		]
+      	}]
+      });
+  chart.render();
+
+  function explodePie (e) {
+  	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+  		e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+  	} else {
+  		e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+  	}
+    e.chart.render();
+    }
+  }
+  </script>
+
   </div>
 </div>
 

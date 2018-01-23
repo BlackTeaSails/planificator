@@ -31,7 +31,7 @@ class Requirement(models.Model):
     def contribution(self):
         contributions = {}
         for client in self.project.stakeholders.all():
-            contributions[client] = self.assessment_set.all().get(client=client.id, requirement=self.id).contribution
+            contributions[client.name] = self.assessment_set.all().get(client=client.id, requirement=self.id).contribution
         return contributions
 
 
