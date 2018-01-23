@@ -24,13 +24,11 @@ class Project(models.Model):
 
     @property
     def productivity(self):
-        totalEffort = 0
+        totalProductivity = 0
         requirements = Requirement.objects.all().filter(project=self).filter(last_released=True)
         for r in requirements:
-            totalEffort = totalEffort + r.effort
-        if not totalEffort:
-            return 0
-        return self.satisfaction/totalEffort
+            totalProductivity = totalProductivity + r.productivity
+        return totalProductivity
 
     @property
     def contribution(self):

@@ -113,10 +113,14 @@ def reuse_requirement(request, project_id, page_number):
     if request.method == 'POST':
         effort = request.POST.get('effort')
         gen_requirement = GeneralRequirement.objects.get(id = request.POST.get('requirement_id'))
+        
         actual_req = Requirement.objects.create(project=project)
         actual_req.name = gen_requirement.name
         actual_req.description = gen_requirement.description
         actual_req.effort = effort
+
+        gen_requirement.projects.add(project)
+        gen_requirement.save()
 
         for stakeholder in project.stakeholders.all():
             assesment = Assessment(client=stakeholder, requirement=actual_req )
