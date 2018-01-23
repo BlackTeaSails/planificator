@@ -1,6 +1,7 @@
 {% extends 'principal/base.html' %}
 
 {% load static %}
+{% load l10n %}
 
 {% block content %}
 
@@ -39,7 +40,7 @@
     <ul class="list-group">
       <li class="list-group-item p-0 border-0">
         <div class="card border-0 w-100 align-self-center">
-          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ project.productivity }} units of productivity and {{ project.satisfaction }} satisfaction and the next contribution: {{ project.contribution }}
+          <h5 class="card-header "><span class="align-self-center">Last solution: A total of {{ totalEffort }} units of effort and {{ project.productivity|floatformat:2 }} units of productivity and {{ project.satisfaction }} satisfaction.
           </span></h5>
         <form id="clients-form" action="{{ prefix }}" method="post" role="form">
           {% csrf_token %}
@@ -82,38 +83,49 @@
       </li>
     </ul>
 
-    <div>
-      <canvas id="myChart" style="position: relative; height:40vh; width:80vw"></canvas>
-    </div>
+    <div id="chartContainer" style="height: 400px; width: 100%;"></div>
 
     <script>
-    let myChart = document.getElementById('myChart').getContext('2d');
-    
-    let massPopChart = new Chart(myChart, {
-        type:'doughnut', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-        data:{
-          labels:['Isabel', 'Fernando'],
-          datasets:[{
-            data:[
-              1.67,
-              1.32,
-            ],
-            backgroundColor:[
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)'
-            ],
-          }]
-        },
+      window.onload = function () {
 
-        options: {
-          legend: { display: true },
-          title: {
-            display: true,
-            text:'Contribution of clinets'
-          }
-        }
+      var chart = new CanvasJS.Chart("chartContainer", {
+      	theme: "light2",
+      	exportFileName: "Contribution",
+      	exportEnabled: true,
+      	animationEnabled: true,
+      	title:{
+      		text: "Clients' contribution"
+      	},
+      	legend:{
+      		cursor: "pointer",
+      		itemclick: explodePie
+      	},
+      	data: [{
+      		type: "doughnut",
+      		innerRadius: 90,
+      		showInLegend: false,
+      		toolTipContent: "<b>{name}</b>: {y}",
+      		indexLabel: "{name} - {y}",
+      		dataPoints: [
+
+          {% for k, v in project.contribution.items %}
+            {y: {{ v|safe }}, name: "{{ k }}" },
+          {% endfor %}
+      		]
+      	}]
       });
-    </script>
+  chart.render();
+
+  function explodePie (e) {
+  	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+  		e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+  	} else {
+  		e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+  	}
+    e.chart.render();
+    }
+  }
+  </script>
 
   </div>
 </div>

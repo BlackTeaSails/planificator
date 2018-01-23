@@ -113,6 +113,9 @@ def manual_solution(request, project_id):
         totalEffort = totalEffort + sol.effort
         totalProductivity = totalProductivity + sol.productivity
 
+    print("=========", type(project.contribution))
+    for k, v in project.contribution.items():
+        print(k,"======8", v)
 
     return render(request, 'projects/manual_solution.html',
                             {'requirements':requirements,
@@ -122,4 +125,5 @@ def manual_solution(request, project_id):
                             'incomplete':incomplete,
                             'totalEffort':totalEffort,
                             'totalProductivity':totalProductivity,
+                            'contributions': project.contribution.items(),
                             })

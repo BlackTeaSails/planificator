@@ -86,6 +86,50 @@
       </li>
     </ul>
 
+    <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+
+    <script>
+      window.onload = function () {
+
+      var chart = new CanvasJS.Chart("chartContainer", {
+      	theme: "light2",
+      	exportFileName: "Contribution",
+      	exportEnabled: true,
+      	animationEnabled: true,
+      	title:{
+      		text: "Clients' contribution"
+      	},
+      	legend:{
+      		cursor: "pointer",
+      		itemclick: explodePie
+      	},
+      	data: [{
+      		type: "doughnut",
+      		innerRadius: 90,
+      		showInLegend: false,
+      		toolTipContent: "<b>{name}</b>: {y}",
+      		indexLabel: "{name} - {y}",
+      		dataPoints: [
+
+          {% for k, v in project.contribution.items %}
+            {y: {{ v|safe }}, name: "{{ k }}" },
+          {% endfor %}
+      		]
+      	}]
+      });
+  chart.render();
+
+  function explodePie (e) {
+  	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+  		e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+  	} else {
+  		e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+  	}
+    e.chart.render();
+    }
+  }
+  </script>
+
   </div>
 </div>
 
