@@ -28,6 +28,8 @@ class Project(models.Model):
         requirements = Requirement.objects.all().filter(project=self).filter(last_released=True)
         for r in requirements:
             totalEffort = totalEffort + r.effort
+        if not totalEffort:
+            return 0
         return self.satisfaction/totalEffort
 
     @property
